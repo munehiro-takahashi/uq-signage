@@ -1,0 +1,148 @@
+@CHARSET "utf-8";
+/* Copyright (c) 2011 NIHON SYSTEM KAIHATSU LIMITED. */
+h1 {
+	font-size: 150%;
+}
+li {
+	list-style-type: none;
+}
+header {
+	display: block;
+	background: #ff4500;
+	background: linear-gradient(#ff7f50, #ff4500, #ff4500);
+	background: -moz-linear-gradient(#ff7f50, #ff4500, #ff4500);
+	background: -webkit-gradient(linear, left top, left bottom, #ff7f50, #ff4500, #ff4500);
+	border-radius: 10px 10px 0px 0px / 10px 10px 0px 0px;
+	color: white;
+	margin: 0px;
+	padding: 5px;
+}
+header h1 {
+	color: white;
+	text-shadow: 3px 3px 8px #ffee88;
+}
+nav#navbar {
+	display: block;
+	background-color: #ffffff;
+	border-radius: 5px;
+	padding: 2px;
+}
+nav#navbar li {
+    text-align: center;
+    float: left;
+    font-weight: bold;
+    border-left: 1px solid #ff4500;
+}
+nav#navbar li:first-child {
+    border: none;
+}
+nav#navbar li.label {
+    float: right;
+    color: #ff5730;
+}
+nav#sidemenu {
+	display: block;
+	background-color: #ffffff;
+	padding: 2px;
+	float: left;
+	height: 100%;
+}
+nav#sidemenu li {
+    display: block;
+    font-weight: bold;
+    border-bottom: 1px solid #ff4500;
+    border-right: 1px solid #ff4500;
+    margin: 1px;
+}
+#body_contents {
+	float: left;
+}
+#body_contents:after {
+  content: ".";  /* 新しい要素を作る */
+  display: block;  /* ブロックレベル要素に */
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+a {
+	text-decoration: none;
+}
+nav a {
+	text-shadow: -1px -1px 0 rgba(150, 150, 150, 0.3);
+}
+nav a:link {
+	color: #ff7f50;
+}
+nav a:visited {
+	color: #ff7f50;
+}
+nav a:active {
+	color: #ff7f50;
+}
+nav a:hover {
+	color: #ff7f50;
+}
+.clearfix:after {
+  content: ".";  /* 新しい要素を作る */
+  display: block;  /* ブロックレベル要素に */
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+
+h2 {
+	display: block;
+	border-left: 5px solid #ff7f50;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	font-size: 130%
+	color: #ff7f50;
+}
+h3 {
+	display: block;
+	border-left: 5px solid #ff7f50;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	margin-left: 10px;
+	font-size: 130%;
+	color: #ff7f50;
+}
+menu ul {
+	display: block;
+	margin-left: 10px;
+}
+
+table.form th {
+  text-align: left;
+}
+
+footer {
+	display: block;
+	background: #ff4500;
+	background: linear-gradient(#ff4500, #ff7f50);
+	background: -moz-linear-gradient(#ff4500, #ff7f50);
+	background: -webkit-gradient(linear, left top, left bottom, #ff4500, #ff7f50);
+	color: white;
+	border-radius: 0px 0px 10px 10px / 0px 0px 10px 10px;
+	margin: 0px;
+	padding: 5px;
+}
+table.data {
+	border: 1px solid gray;
+}
+table.data th {
+	background: #D9E5FF;
+	border: 1px solid gray;
+}
+table.data td {
+	border: 1px solid gray;
+}
+input.error {
+	background-color: #FFB6C1;
+}
+span.error {
+	display: block;
+	background-color: #FFB6C1;
+	border: 1px solid #000000;
+	border-radius: 5px;
+}

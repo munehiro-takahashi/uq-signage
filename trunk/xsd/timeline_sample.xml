@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tl:timeline id="t0001" name="平常時" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:lo="http://uq.nskint.co.jp/uqSignage/layout" xmlns:tl="http://uq.nskint.co.jp/uqSignage/timeline" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uq.nskint.co.jp/uqSignage/timeline timeline.xsd http://uq.nskint.co.jp/uqSignage/layout layout.xsd http://www.w3.org/1999/xhtml xhtml1-strict.xsd ">
+  <tl:block id="b0001" layout_id="l0001">
+    <tl:change_component id="cc001" name="" target_id="lc001" time="12:00:00"/>
+  </tl:block>
+  <tl:block id="b0002" layout_id="l0003">
+    <tl:change_component id="cc001" name="" target_id="lc001" time="12:00:00"/>
+  </tl:block>
+  <tl:block id="b0003" layout_id="l0002">
+    <tl:change_component id="cc001" name="" target_id="lc001" time="12:00:00"/>
+  </tl:block>
+  <tl:schedule block_id="b0001" id="s0001"/>
+  <tl:schedule block_id="b0002" id="s0002" start="12:00:00" end="12:15:00" />
+  <tl:schedule block_id="b0003" id="s0003" start="12:00:00" />
+</tl:timeline>
