@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://uq.nskint.co.jp/uqSignage/timeline"
+	xmlns:tl="http://uq.nskint.co.jp/uqSignage/timeline"
+	xmlns:lo="http://uq.nskint.co.jp/uqSignage/layout"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	elementFormDefault="qualified" jaxb:version="2.0">
+	<import namespace="http://uq.nskint.co.jp/uqSignage/layout" schemaLocation="layout.xsd"/>
+	<element name="timeline">
+ 		<annotation>
+			<appinfo>
+				<jaxb:class name="TimeLineXml">
+				</jaxb:class>
+			</appinfo>
+ 		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="tl:block" minOccurs="1" maxOccurs="unbounded"/>
+				<element ref="tl:schedule" minOccurs="1" maxOccurs="unbounded"/>
+			</sequence>
+			<attribute name="id" type="string" use="required"/>
+			<attribute name="name" type="string"/>
+		</complexType>
+	</element>
+	<element name="change_component">
+		<complexType>
+			<group ref="lo:components"/>
+			<attribute name="id" type="string" use="required"/>
+			<attribute name="name" type="string"/>
+			<attribute name="target_id" type="string" use="required"/>
+			<attribute name="time" type="time"/>
+			<attribute name="interval" type="unsignedInt"/>
+		</complexType>
+	</element>
+	<element name="block">
+		<complexType>
+			<sequence>
+				<element ref="tl:change_component" maxOccurs="unbounded"/>
+			</sequence>
+			<attribute name="id" type="string" use="required"/>
+			<attribute name="layout_id" type="string" use="required"/>
+		</complexType>
+	</element>
+	<element name="schedule">
+		<complexType>
+			<attribute name="id" type="string" use="required"/>
+			<attribute name="block_id" type="string" use="required"/>
+			<attribute name="start" type="time"/>
+			<attribute name="end" type="time"/>
+		</complexType>
+	</element>
+</schema>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/clear</url>
+    <description>clear unsubscribed user.<!--一日一回、24時間以上経過しても登録完了していないユーザを削除する--></description>
+    <schedule>every day 04:00</schedule>
+    <timezone>Asia/Tokyo</timezone>
+  </cron>
+</cronentries>
