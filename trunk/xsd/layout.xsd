@@ -96,7 +96,11 @@
 	<element name="pie_graph" >
 		<complexType>
 			<complexContent>
-				<extension base="lo:ComponentType"/>
+				<extension base="lo:ComponentType">
+					<attribute name="data" type="string" use="required"/>
+					<attribute name="data_caption" type="string" use="required"/>
+					<attribute name="legend_position" type="lo:DirectionType"/>
+				</extension>
 			</complexContent>
 		</complexType>
 	</element>
