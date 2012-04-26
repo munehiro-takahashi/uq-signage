@@ -132,7 +132,16 @@
 	<element name="image" >
 		<complexType>
 			<complexContent>
-				<extension base="lo:ComponentType"/>
+				<extension base="lo:ComponentType">
+					<attribute name="type" type="lo:ImageType" default="picasa_album"/>
+					<attribute name="effect" type="lo:EffectType" default="nomal"/>
+					<attribute name="interval" type="int" default="30"/>
+					<attribute name="user" type="string"/>
+					<attribute name="user_id" type="string"/>
+					<attribute name="album" type="string"/>
+					<attribute name="album_id" type="string"/>
+					<attribute name="url" type="anyURI"/>
+				</extension>
 			</complexContent>
 		</complexType>
 	</element>
@@ -167,6 +176,19 @@
 		<restriction base="string">
 			<enumeration value="html5"/>
 			<enumeration value="youtube"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ImageType">
+		<restriction base="string">
+			<enumeration value="picasa_album"/>
+			<enumeration value="url"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EffectType">
+		<restriction base="string">
+			<enumeration value="nomal"/>
+			<enumeration value="circle"/>
+			<enumeration value="fade"/>
 		</restriction>
 	</simpleType>
 	<simpleType name="DirectionType">
