@@ -19,7 +19,6 @@
 	<taskdef name="gen-controller" classname="org.slim3.gen.task.GenControllerTask" classpathref="classpath"/>
     <taskdef name="gen-gwt-service" classname="org.slim3.gen.task.GenGWTServiceTask" classpathref="classpath"/>
     <taskdef name="gen-gwt-service-impl" classname="org.slim3.gen.task.GenGWTServiceImplTask" classpathref="classpath"/>
-    
     <target name="gen-controller">
         <input message="Input a controller path." addproperty="controllerPath"/>
         <gen-controller srcdir="${srcDir}" testdir="${testDir}" wardir="${warDir}" controllerpath="${controllerPath}"
@@ -69,5 +68,18 @@
                 <exclude name="war/WEB-INF/classes/**"/>
             </zipfileset>
         </zip>
+    </target>
+    <property name="schema.dir" value="xsd"/>
+    <property name="src.dir" value="xsd/src"/>
+    <property name="package" value="jp.co.nskint.uq.pd.signage.model.xml"/>
+
+    <target name="xjc">
+        <echo message="Compiling the XML schema..."/>
+        <exec executable="xjc">
+            <arg line="-d ${src.dir}"/>
+            <arg line="-p ${package}"/>
+            <arg line="${schema.dir}/layout.xsd"/>
+            <arg line="${schema.dir}/timeline.xsd"/>
+        </exec>
     </target>
 </project>
