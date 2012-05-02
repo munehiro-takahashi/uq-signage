@@ -7,6 +7,8 @@ import jp.co.nskint.uq.pd.signage.model.Layout;
 import jp.co.nskint.uq.pd.signage.model.Manager;
 import jp.co.nskint.uq.pd.signage.model.TimeLine;
 import jp.co.nskint.uq.pd.signage.model.xml.Block;
+import jp.co.nskint.uq.pd.signage.model.xml.EffectType;
+import jp.co.nskint.uq.pd.signage.model.xml.Image;
 import jp.co.nskint.uq.pd.signage.model.xml.LayoutXml;
 import jp.co.nskint.uq.pd.signage.model.xml.Marquee;
 import jp.co.nskint.uq.pd.signage.model.xml.Schedule;
@@ -64,26 +66,40 @@ public class ViewPage extends BasePage {
 
         ManagerService managerService = new ManagerService();
         Manager manager = (Manager)managerService.get(mid);
-        
+
         final LayoutXml xmlModel = new LayoutXml();
         final Marquee marquee = new Marquee();
-        marquee.setValue("テスト");
+        marquee.setValue("デジタルサイネージ　デモ");
         marquee.setX(0);
         marquee.setY(0);
-        marquee.setWidth(200);
-        marquee.setHeight(200);
+        marquee.setWidth(1024);
+        marquee.setHeight(60);
         marquee.setFontColor("000");
-        marquee.setSpeed(1);
+        marquee.setFontSize(50);
+        marquee.setSpeed(100);
+        marquee.setId("1");
         xmlModel.getComponents().add(marquee);
 
         final StreamVideo svideo = new StreamVideo();
-        svideo.setX(300);
-        svideo.setY(0);
+        svideo.setX(520);
+        svideo.setY(60);
         svideo.setWidth(480);
         svideo.setHeight(386);
         svideo.setType(StreamVideoType.UST);
-        svideo.setUrl("http://www.ustream.tv/embed/7176758");
+        svideo.setUrl("http://www.ustream.tv/embed/9755653");
+        svideo.setId("2");
         xmlModel.getComponents().add(svideo);
+
+        final Image image = new Image();
+        image.setAlbum("Joints2012");
+        image.setUser("drmashu");
+        image.setEffect(EffectType.FADE);
+        image.setX(0);
+        image.setY(60);
+        image.setWidth(500);
+        image.setHeight(500);
+        image.setId("3");
+        xmlModel.getComponents().add(image);
 
         long lid = Long.parseLong(id);
         layout.setId(LayoutService.createKey(lid));

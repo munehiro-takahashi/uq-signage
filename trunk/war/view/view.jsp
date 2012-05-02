@@ -20,7 +20,7 @@
 </head>
 <body>
 <c:forEach items="${layout.components}" var="component">
- <div style="top:${component.y}px;left:${component.x}px;width:${component.width}px;height:${component.height}px;">
+ <div style="position:absolute;top:${component.y}px;left:${component.x}px;width:${component.width}px;height:${component.height}px;">
   <c:choose>
    <c:when test="${component.class.simpleName == 'Text'}">
     <c:import url="${e:url('/text/')}"/>
@@ -32,13 +32,23 @@
     <c:import url="${e:url('/table/')}"/>
    </c:when>
    <c:when test="${component.class.simpleName == 'Image'}">
-    <c:import url="${e:url('/image/')}"/>
+    <c:import url="${e:url('/image/')}" >
+     <c:param name="id" value="${component.id}"/>
+     <c:param name="width" value="${component.width}"/>
+     <c:param name="height" value="${component.height}"/>
+     <c:param name="type" value="${component.type}"/>
+     <c:param name="effect" value="${component.effect}"/>
+     <c:param name="interval" value="${component.interval}"/>
+     <c:param name="user" value="${component.user}"/>
+     <c:param name="album" value="${component.album}"/>
+    </c:import>
    </c:when>
    <c:when test="${component.class.simpleName == 'Audio'}">
     <c:import url="${e:url('/audio/')}"/>
    </c:when>
    <c:when test="${component.class.simpleName == 'Video'}">
     <c:import url="${e:url('/video/')}">
+     <c:param name="id" value="${component.id}"/>
      <c:param name="url" value="${component.url}"/>
      <c:param name="width" value="${component.width}"/>
      <c:param name="height" value="${component.height}"/>
@@ -48,6 +58,7 @@
    </c:when>
    <c:when test="${component.class.simpleName == 'StreamVideo'}">
     <c:import url="${e:url('/stream/')}">
+     <c:param name="id" value="${component.id}"/>
      <c:param name="url" value="${component.url}"/>
      <c:param name="width" value="${component.width}"/>
      <c:param name="height" value="${component.height}"/>
