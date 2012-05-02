@@ -6,6 +6,7 @@ import jp.co.nskint.uq.pd.signage.controller.matcher.CronPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.EditPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.EditorPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.FrontPageMatcher;
+import jp.co.nskint.uq.pd.signage.controller.matcher.ImagePageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.LayoutPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.ManagerPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.MarqueePageMatcher;
@@ -30,9 +31,10 @@ public class AppUrls extends UrlsImpl {
         add(EditPageMatcher.get());
         add(StreamVideoPageMatcher.get());
         add(VideoPageMatcher.get());
-        add(LayoutPageMatcher.get());
         add(MarqueePageMatcher.get());
         add(BarGraphPageMatcher.get());
+        add(ImagePageMatcher.get());
+        add(LayoutPageMatcher.get());
         add(FrontPageMatcher.get());
         // TODO Add your own new PageMatcher
 

@@ -8,20 +8,20 @@
  <c:when test="${type == 'youtube'}">
   <c:choose>
    <c:when test="${loop}">
-    <iframe width="${width}" height="${height}" src="${url}?autoplay=1&loop=1" frameborder="0" allowfullscreen></iframe>
+    <iframe id="${id}" width="${width}" height="${height}" src="${url}?autoplay=1&loop=1" frameborder="0" allowfullscreen></iframe>
    </c:when>
    <c:otherwise>
-    <iframe width="${width}" height="${height}" src="${url}?autoplay=1" frameborder="0" allowfullscreen></iframe>
+    <iframe id="${id}" width="${width}" height="${height}" src="${url}?autoplay=1" frameborder="0" allowfullscreen></iframe>
    </c:otherwise>
   </c:choose>
  </c:when>
  <c:when test="${type == 'html5'}">
   <c:choose>
    <c:when test="${loop}">
-    <video width="${width}" height="${height}" src="${url}" autoplay loop />
+    <video id="${id}" width="${width}" height="${height}" src="${url}" autoplay loop />
    </c:when>
    <c:otherwise>
-    <video width="${width}" height="${height}" src="${url}" autoplay />
+    <video id="${id}" width="${width}" height="${height}" src="${url}" autoplay />
    </c:otherwise>
   </c:choose>
  </c:when>
