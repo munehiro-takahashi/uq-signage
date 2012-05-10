@@ -6,7 +6,7 @@
 		<td>種類</td>
 		<td>
 			<select name="${param.index}_type">
-				<option value="UST"
+				<option value="ust"
 					<c:if test="${param.type=='ust'}">selected="selected"</c:if>
 				>UStream</option>
 			</select>
@@ -14,6 +14,6 @@
 	</tr>
 	<tr>
 		<td>URL</td>
-		<td><input type="text" name="${param.index}_url" value="${param.url}" /></td>
+		<td><input type="url" name="${param.index}_url" value="${param.url}" /></td>
 	</tr>
 </table>
