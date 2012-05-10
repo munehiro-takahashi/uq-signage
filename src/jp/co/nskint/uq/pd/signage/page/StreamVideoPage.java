@@ -32,17 +32,6 @@ public class StreamVideoPage extends BasePage {
         }
     }
 
-    @ActionPath("edit")
-    public Navigation edit() {
-        putEnteringLog();
-        try {
-            return forward("/components/stream_video_edit.jsp");
-        } finally {
-            putExitingLog();
-        }
-    }
-    
-    
     @ActionPath("form")
     public Navigation form(
             @RequestParam("index") int index,
