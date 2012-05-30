@@ -11,6 +11,7 @@ import jp.co.nskint.uq.pd.signage.controller.matcher.LayoutPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.ManagerPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.MarqueePageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.StreamVideoPageMatcher;
+import jp.co.nskint.uq.pd.signage.controller.matcher.TimeLinePageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.UserPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.VideoPageMatcher;
 import jp.co.nskint.uq.pd.signage.controller.matcher.ViewPageMatcher;
@@ -35,6 +36,7 @@ public class AppUrls extends UrlsImpl {
         add(BarGraphPageMatcher.get());
         add(ImagePageMatcher.get());
         add(LayoutPageMatcher.get());
+        add(TimeLinePageMatcher.get());
         add(FrontPageMatcher.get());
         // TODO Add your own new PageMatcher
 
