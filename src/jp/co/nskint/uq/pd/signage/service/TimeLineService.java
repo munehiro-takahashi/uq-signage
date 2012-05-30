@@ -30,7 +30,7 @@ import com.google.appengine.api.datastore.Transaction;
 public class TimeLineService extends Service {
     /**
      * タイムライン情報の保存
-     * @param manager 
+     * @param manager
      *
      * @param timeline
      *            タイムライン情報
@@ -95,6 +95,108 @@ public class TimeLineService extends Service {
      */
     public static Key createKey(String tlid) {
         return Datastore.createKey(TimeLineMeta.get(), tlid);
+    }
+
+    /**
+     * タイムライン情報の新規IDを取得する
+     * @return タイムライン情報の新規ID
+     */
+    public static Key createNewKey() {
+        return Datastore.allocateId(TimeLineMeta.get());
+    }
+
+    /**
+     * タイムライン情報を取得する。
+     *
+     * @param tlid
+     *            タイムラインID
+     * @param timelineXml
+     *            タイムラインXMLモデル情報
+     * @param manager
+     *            代表者情報
+     * @return タイムライン情報
+     */
+    public TimeLine cretateTimeLine(Manager manager, String lid, String name) {
+
+        Key id = TimeLineService.createNewKey();
+        String tlid = id.getName();
+        // ブロック情報の作成
+        final String blockId = "block_" + tlid;
+        Block block = cretateBlock(blockId, lid);
+
+        // スケジュール情報の作成
+        final String scheduleId = "schedule_" + tlid;
+        Schedule schedule = cretateSchedule(scheduleId, blockId);
+
+        // タイムラインXMLモデルの作成
+        TimeLineXml timelineXml = cretateTimeLineXml(tlid, name, block, schedule);
+
+        TimeLine timeline = new TimeLine();
+        timeline.setId(id);
+        Date now = new Date();
+        timeline.setRegisteredDate(now);
+        timeline.setUpdatedDate(now);
+        timeline.setXmlModel(timelineXml);
+        timeline.getManagerRef().setModel(manager);
+
+        return timeline;
+    }
+
+    /**
+     * ブロック情報を取得する。
+     *
+     * @param blockId
+     *            ブロックID
+     * @param layoutId
+     *            レイアウトID
+     * @return ブロック情報
+     */
+    public Block cretateBlock(String blockId, String layoutId){
+        Block block = new Block();
+        block.setId(blockId);
+        block.setLayoutId(layoutId);
+
+        return block;
+    }
+
+    /**
+     * スケジュール情報を取得する。
+     *
+     * @param scheduleId
+     *            スケジュールID
+     * @param blockId
+     *            ブロックID
+     * @return スケジュール情報
+     */
+    public Schedule cretateSchedule(String scheduleId, String blockId){
+        Schedule schedule = new Schedule();
+        schedule.setId(scheduleId);
+        schedule.setBlockId(blockId);
+
+        return schedule;
+    }
+
+    /**
+     * タイムラインXMLモデル情報を取得する。
+     *
+     * @param tlid
+     *            タイムラインID
+     * @param name
+     * @param block
+     *            ブロック情報
+     * @param schedule
+     *            スケジュール情報
+     * @return タイムラインXMLモデル情報
+     */
+    public TimeLineXml cretateTimeLineXml(String tlid, String name, Block block,
+            Schedule schedule) {
+        TimeLineXml timelineXml = new TimeLineXml();
+        timelineXml.setId(tlid);
+        timelineXml.setName(name);
+        timelineXml.getBlock().add(block);
+        timelineXml.getSchedule().add(schedule);
+
+        return timelineXml;
     }
 
     public static class LayoutInfo {
