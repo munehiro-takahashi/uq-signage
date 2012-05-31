@@ -95,7 +95,7 @@ public class TimeLinePage extends BasePage {
         tlService.put(manager, timeline);
 
         // 一覧画面に遷移する。
-        return redirect("/timeline/?mid=" + mid);
+        return redirectToList(mid);
     }
 
     /**
@@ -107,7 +107,7 @@ public class TimeLinePage extends BasePage {
      * @return
      */
     @ActionPath("edit")
-    public Navigation edit(@RequestParam("mid") String mid, @RequestParam("tlid") String tlid) {
+    public Navigation edit(@RequestParam("mid") String mid, @RequestParam("tlid") long tlid) {
 
         final String methodName =
             Thread.currentThread().getStackTrace()[1].getMethodName();
@@ -137,7 +137,7 @@ public class TimeLinePage extends BasePage {
 
             this.request.setAttribute("mid", mid);
             this.request.setAttribute("tlid", tlid);
-            this.request.setAttribute("timelineXml", timelineXml);
+            this.request.setAttribute("timeline", timelineXml);
             this.request.setAttribute("title", "タイムライン編集");
 
             return forward("/timeline/edit.jsp");
@@ -177,5 +177,48 @@ public class TimeLinePage extends BasePage {
         finally {
             logger.exiting(this.getClass().getName(), methodName);
         }
+    }
+
+    /**
+     * タイムラインを削除するアクション
+     *
+     * @param mid 代表者ＩＤ
+     * @param tlid タイムラインＩＤ
+     * @return
+     */
+    @ActionPath("delete")
+    public Navigation delete(
+            @RequestParam("mid") String mid,
+            @RequestParam("tlids") String[] tlids) {
+
+        final String methodName =
+            Thread.currentThread().getStackTrace()[1].getMethodName();
+        logger.entering(this.getClass().getName(), methodName);
+
+        try {
+            Manager manager = (Manager)mService.get(mid);
+            if(manager == null) {
+                errors.put("page", "指定されたマネージャは存在しません。");
+                return forward("/error.jsp");
+            }
+
+            for (String tlid : tlids) {
+                logger.fine("delete Timeline '" + tlid + "'");
+                tlService.delete(Long.valueOf(tlid));
+            }
+
+            return redirectToList(mid);
+        }
+        finally {
+            logger.exiting(this.getClass().getName(), methodName);
+        }
+    }
+
+    /**
+     * @param mid
+     * @return
+     */
+    private Navigation redirectToList(String mid) {
+        return redirect("/timeline/?mid=" + mid);
     }
 }
