@@ -62,7 +62,7 @@ public class TimeLineService extends Service {
      *            タイムラインID
      * @return タイムライン情報
      */
-    public TimeLine get(String tlid) {
+    public TimeLine get(long tlid) {
         Transaction tx = Datastore.beginTransaction();
         TimeLine result = this.get(tx, tlid);
         tx.commit();
@@ -78,13 +78,13 @@ public class TimeLineService extends Service {
      *            タイムラインID
      * @return タイムライン情報
      */
-    protected TimeLine get(Transaction tx, String tlid) {
+    protected TimeLine get(Transaction tx, long tlid) {
         TimeLine result;
         result =
             Datastore.getOrNull(
                 tx,
                 TimeLineMeta.get(),
-                TimeLineService.createKey(tlid));
+                createKey(tlid));
         return result;
     }
 
@@ -93,7 +93,7 @@ public class TimeLineService extends Service {
      * @param tlid タイムラインID
      * @return キー
      */
-    public static Key createKey(String tlid) {
+    public static Key createKey(long tlid) {
         return Datastore.createKey(TimeLineMeta.get(), tlid);
     }
 
@@ -243,5 +243,13 @@ public class TimeLineService extends Service {
 
         }
         return null;
+    }
+
+    /**
+     * タイムラインの削除
+     * @param tlid
+     */
+    public void delete(long tlid) {
+        Datastore.delete(createKey(tlid));
     }
 }

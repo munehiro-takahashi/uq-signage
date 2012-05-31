@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8" />
-<title>uqSignage - ${f:h(title)}</title>
+<title>uqSignage - タイムライン管理</title>
 <!--[if IE]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
@@ -67,6 +67,7 @@ function deleteTimeline() {
 }
 
 function editTimeline(tlid) {
+	alert("tlid '"+tlid+"''");
 	$("#tlid").val(tlid);
 	$("#listForm").submit();
 }
@@ -102,11 +103,11 @@ function editTimeline(tlid) {
 						<tr>
 							<%-- 削除 --%>
 							<td>
-								<input type="checkbox" name="tlids" value="${f:h(timeline.xmlModel.id) }" onclick="onClickCheckBox();" />
+								<input type="checkbox" name="tlids" value="${f:h(timeline.id.id) }" onclick="onClickCheckBox();" />
 							</td>
 							<%-- 編集 --%>
 							<td>
- 								<input type="button" value="編集" onclick="editTimeline('${timeline.xmlModel.id}');"/>
+ 								<input type="button" value="編集" onclick="editTimeline('${timeline.id.id}');"/>
 							</td>
 							<%-- タイムライン名 --%>
 							<td>
@@ -128,7 +129,7 @@ function editTimeline(tlid) {
 					</c:forEach>
 				</tbody>
 			</table>
-			<input type="hidden" id="mid" name="mid" value="${mid }" />
+			<input type="hidden" id="mid" name="mid" value="${mid}" />
 			<input type="hidden" id="tlid" name="tlid" value="" />
 			<div id="add_dialog" title="新規タイムラインの追加">
 				タイムライン名：<input type="text" id="name" name="name"/>

@@ -40,7 +40,7 @@ public class ViewPage extends BasePage {
      * 表示
      */
     @ActionPath("{tlid}")
-    public Navigation view(@Var("tlid") String tlid) {
+    public Navigation view(@Var("tlid") long tlid) {
         putEnteringLog();
         try {
             TimeLine timeline = tlService.get(tlid);
@@ -114,7 +114,7 @@ public class ViewPage extends BasePage {
         final String tlid = id;
 
         TimeLine timeline = new TimeLine();
-        timeline.setId(TimeLineService.createKey(tlid));
+        timeline.setId(TimeLineService.createKey(Long.parseLong(tlid)));
         TimeLineXml tlXml = new TimeLineXml();
         tlXml.setName(id);
 
