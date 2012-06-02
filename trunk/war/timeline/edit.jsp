@@ -19,7 +19,7 @@
 th.name {
 }
 .slider {
-	width:380px;
+	width:590px;
 	margin: 5px
 }
 .time_slider {
@@ -123,7 +123,7 @@ function addSchedule() {
 					<colgroup>
 						<col style="width:50px" />
 						<col style="width:80px" />
-						<col style="width:400px" />
+						<col style="width:600px" />
 						<col style="width:80px" />
 					</colgroup>
 					<thead>
