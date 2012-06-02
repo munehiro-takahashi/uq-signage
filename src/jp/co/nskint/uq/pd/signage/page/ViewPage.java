@@ -6,6 +6,7 @@ import java.util.Date;
 import jp.co.nskint.uq.pd.signage.model.Layout;
 import jp.co.nskint.uq.pd.signage.model.Manager;
 import jp.co.nskint.uq.pd.signage.model.TimeLine;
+import jp.co.nskint.uq.pd.signage.model.User;
 import jp.co.nskint.uq.pd.signage.model.xml.Block;
 import jp.co.nskint.uq.pd.signage.model.xml.EffectType;
 import jp.co.nskint.uq.pd.signage.model.xml.Image;
@@ -36,6 +37,7 @@ import scenic3.annotation.Var;
 @Page("/view")
 public class ViewPage extends BasePage {
     private TimeLineService tlService = new TimeLineService();
+    private LayoutService lService = new LayoutService();
     /**
      * 表示
      */
@@ -47,6 +49,24 @@ public class ViewPage extends BasePage {
             LayoutInfo layout = tlService.getViewLayout(timeline);
             request.setAttribute("title", timeline.getXmlModel().getName());
             request.setAttribute("layout", layout.layout.getXmlModel());
+            request.setAttribute("title", "テスト");
+            return forward("/view/view.jsp");
+        } finally {
+            putExitingLog();
+        }
+    }
+
+    /**
+     * 表示
+     */
+    @ActionPath("{lid}/preview")
+    public Navigation preview(@Var("lid") long lid) {
+        putEnteringLog();
+        try {
+            User user = (User)request.getSession().getAttribute(SESS_KEY_LOGIN_USER);
+            Layout layout = lService.get(user, lid);
+            request.setAttribute("title", "プレビュー");
+            request.setAttribute("layout", layout.getXmlModel());
             request.setAttribute("title", "テスト");
             return forward("/view/view.jsp");
         } finally {

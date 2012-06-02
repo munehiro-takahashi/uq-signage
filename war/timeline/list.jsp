@@ -25,7 +25,6 @@ th.name {
 <script type="text/javascript" src="/js/jquery.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
 <script type="text/javascript">
-<!--
 $(function(){
 	$(".button").button();
 	$("#add_dialog").dialog(
@@ -52,8 +51,9 @@ function openAddDialog() {
 	$("#add_dialog").dialog("open");
 }
 function addTimeline() {
-	$("#mid").val("${mid}");
 	$("#listForm").attr("action", "add");
+	$("#lid").val($("#lid_").val());
+	$("#name").val($("#name_").val());
 	$("#listForm").submit();
 }
 
@@ -67,11 +67,9 @@ function deleteTimeline() {
 }
 
 function editTimeline(tlid) {
-	alert("tlid '"+tlid+"''");
 	$("#tlid").val(tlid);
 	$("#listForm").submit();
 }
-//-->
 </script>
 </head>
 <body>
@@ -82,7 +80,7 @@ function editTimeline(tlid) {
 <div class="clearfix">
 	<t:sidemenu/>
 	<div id="body_contents">
-		<form id="listForm" action="edit" method="post">
+		<form id="listForm" action="edit" method="get">
 			<div>
 				<input class="button" type="button" id="create_button" value="追加" onclick="openAddDialog();" />
  				<input class="button" type="button" id="del_button" value="削除" onclick="deleteTimeline();" />
@@ -131,17 +129,19 @@ function editTimeline(tlid) {
 			</table>
 			<input type="hidden" id="mid" name="mid" value="${mid}" />
 			<input type="hidden" id="tlid" name="tlid" value="" />
+			<input type="hidden" id="name" name="name" value="" />
+			<input type="hidden" id="lid" name="lid" value="" />
+		</form>
 			<div id="add_dialog" title="新規タイムラインの追加">
-				タイムライン名：<input type="text" id="name" name="name"/>
+				タイムライン名：<input type="text" id="name_" name="name" value="" />
 				<br />
 			    デフォルトレイアウトID：
-				<select id="lid" name="lid">
+				<select id="lid_" name="lid">
 					<c:forEach items="${layoutList }" var="layout">
 							<option value="${f:h(layout.id.id) }">${f:h(layout.id.id) }</option>
 					</c:forEach>
 				</select>
 			</div>
-		</form>
 	</div>
 </div>
 <footer>
