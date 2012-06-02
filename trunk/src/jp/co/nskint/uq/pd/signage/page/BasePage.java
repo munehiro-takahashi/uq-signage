@@ -88,7 +88,6 @@ public abstract class BasePage extends ScenicPage {
      *            ログインユーザ情報
      */
     protected void setLoginUser(User user) {
-
         request.getSession().setAttribute(SESS_KEY_LOGIN_USER, user);
     }
 

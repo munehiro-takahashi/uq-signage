@@ -81,6 +81,11 @@ public class TimeLinePage extends BasePage {
     @ActionPath("add")
     public Navigation add(@RequestParam("mid") String mid,
             @RequestParam("lid") String lid, @RequestParam("name") String name) {
+        final String methodName =
+                Thread.currentThread().getStackTrace()[1].getMethodName();
+        logger.entering(this.getClass().getName(), methodName);
+
+        logger.fine("add " + name);
 
         Manager manager = (Manager) mService.get(mid);
         if (manager == null) {

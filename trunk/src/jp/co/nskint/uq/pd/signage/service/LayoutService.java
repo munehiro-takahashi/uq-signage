@@ -12,6 +12,7 @@ import javax.xml.bind.JAXBException;
 import jp.co.nskint.uq.pd.signage.meta.LayoutMeta;
 import jp.co.nskint.uq.pd.signage.model.Layout;
 import jp.co.nskint.uq.pd.signage.model.Manager;
+import jp.co.nskint.uq.pd.signage.model.User;
 import jp.co.nskint.uq.pd.signage.model.xml.LayoutXml;
 
 import org.slim3.datastore.Datastore;
@@ -46,7 +47,7 @@ public class LayoutService extends Service {
                 throw new IllegalStateException(e);
             }
         }
-        
+
         layout.setManagerRef(manager);
 
         Transaction tx = Datastore.beginTransaction();
@@ -62,9 +63,9 @@ public class LayoutService extends Service {
      *            レイアウトID
      * @return レイアウト情報
      */
-    public Layout get(Manager manager, long lid) {
+    public Layout get(User user, long lid) {
         Transaction tx = Datastore.beginTransaction();
-        Layout result = this.get(tx, manager, lid);
+        Layout result = this.get(tx, user, lid);
         tx.commit();
         return result;
     }
@@ -78,20 +79,25 @@ public class LayoutService extends Service {
      *            レイアウトID
      * @return レイアウト情報
      */
-    protected Layout get(Transaction tx, Manager manager, long lid) {
+    protected Layout get(Transaction tx, User user, long lid) {
         Key key = LayoutService.createKey(lid);
         if( key == null) {
             return null;
         }
         Layout result;
+
         result =
             Datastore.getOrNull(tx, LayoutMeta.get(), key);
-        return result;
+        if(User.TYPE_ADMINISTRATOR.equals(user.getType())
+                || user.equals(result.getManagerRef().getModel())) {
+            return result;
+        }
+        return null;
     }
-    
-    public void delete(Manager manager, List<Long> lids) {
+
+    public void delete(User user, List<Long> lids) {
         Transaction tx = Datastore.beginTransaction();
-        this.delete(tx, manager, lids);
+        this.delete(tx, user, lids);
         tx.commit();
     }
     /**
@@ -100,13 +106,13 @@ public class LayoutService extends Service {
      * @param manager 代表者情報
      * @param lids 削除対象のレイアウトIDを格納したリスト
      */
-    protected void delete(Transaction tx, Manager manager, List<Long> lids) {
+    protected void delete(Transaction tx, User user, List<Long> lids) {
         if(lids == null) {
             return ;
         }
         List<Key> keys = new ArrayList<Key>();
         Iterator<Long> ite = lids.iterator();
-        
+
         while (ite.hasNext()) {
             Long lid = (Long) ite.next();
             Key key = LayoutService.createKey(lid);
@@ -115,10 +121,10 @@ public class LayoutService extends Service {
             }
             keys.add(key);
         }
-        
+
         Datastore.delete(tx, keys);
     }
-    
+
 
     /**
      * @param lid
@@ -130,7 +136,7 @@ public class LayoutService extends Service {
         }
         return Datastore.createKey(LayoutMeta.get(), lid);
     }
-    
+
     /**
      * レイアウト情報の新規IDを取得する
      * @return レイアウト情報の新規ID

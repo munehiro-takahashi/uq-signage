@@ -119,13 +119,13 @@ public class TimeLineService extends Service {
     public TimeLine cretateTimeLine(Manager manager, String lid, String name) {
 
         Key id = TimeLineService.createNewKey();
-        String tlid = id.getName();
+        long tlid = id.getId();
         // ブロック情報の作成
-        final String blockId = "block_" + tlid;
+        final String blockId = "0";
         Block block = cretateBlock(blockId, lid);
 
         // スケジュール情報の作成
-        final String scheduleId = "schedule_" + tlid;
+        final String scheduleId = "0";
         Schedule schedule = cretateSchedule(scheduleId, blockId);
 
         // タイムラインXMLモデルの作成
@@ -179,7 +179,7 @@ public class TimeLineService extends Service {
     /**
      * タイムラインXMLモデル情報を取得する。
      *
-     * @param tlid
+     * @param ""+tlid
      *            タイムラインID
      * @param name
      * @param block
@@ -188,10 +188,10 @@ public class TimeLineService extends Service {
      *            スケジュール情報
      * @return タイムラインXMLモデル情報
      */
-    public TimeLineXml cretateTimeLineXml(String tlid, String name, Block block,
+    public TimeLineXml cretateTimeLineXml(long tlid, String name, Block block,
             Schedule schedule) {
         TimeLineXml timelineXml = new TimeLineXml();
-        timelineXml.setId(tlid);
+        timelineXml.setId(""+tlid);
         timelineXml.setName(name);
         timelineXml.getBlock().add(block);
         timelineXml.getSchedule().add(schedule);
