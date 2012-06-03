@@ -19,7 +19,7 @@
 th.name {
 }
 .slider {
-	width:590px;
+	width:690px;
 	margin: 5px
 }
 .time_slider {
@@ -32,7 +32,7 @@ th.name {
 .container {
 	margin:5px;
 	padding: 5px;
-	width: 800px;
+	width: 900px;
 }
 </style>
 <script type="text/javascript" src="/js/jquery.js"></script>
@@ -53,6 +53,7 @@ $(function(){
 			slide: slideTime
 		});
 	});
+	$(".start_hour,.start_min,end_hour,.end_min").change(changeTime);
 });
 function slideTime(event, ui) {
 	var val0 = ui.values[ 0 ];
@@ -65,12 +66,25 @@ function slideTime(event, ui) {
 
     var sche = $(this).parent();
 
-    var start = sche.find(".start_time");
-    start.val(hour0 + ":" + digitFormat(min0));
-    var end = sche.find(".end_time");
-    end.val(hour1 + ":" + digitFormat(min1));
+    sche.find(".start_hour").val(hour0);
+    sche.find(".start_min").val(digitFormat(min0));
+    sche.find(".end_hour").val(hour1);
+    sche.find(".end_min").val(digitFormat(min1));
+}
+function changeTime(event) {
+    var sche = $(this).parent();
+
+    var start_hour = parseInt(sche.find(".start_hour").val());
+    var start_min = parseInt(sche.find(".start_min").val());
+    var end_hour = parseInt(sche.find(".end_hour").val());
+    var end_min = parseInt(sche.find(".end_min").val());
+
+    sche.find(".slider").slider("values",
+    		[start_hour*HOUR+start_min,
+    		 end_hour*HOUR+end_min]);
 }
 function digitFormat(num) {
+	num = parseInt(num);
 	if (num < 10) {
 		num = "0" + num;
 	}
@@ -79,15 +93,27 @@ function digitFormat(num) {
 function addSchedule() {
 	var id = parseInt($('#schedule>tbody>tr:last>.sch_id').text()) + 1;
 	var html =
-			'<tr id="sche_' + id + '">'+
+			'<tr class="schedules" id="sche_' + id + '">'+
 				'<td><input type="checkbox" name="selectSchedule" id="selectSchedule_'+id+'" value="'+id+'"/></td>'+
 				'<td class="sch_id">'+id+'</td>'+
 				'<td class="time_slider">'+
-					'<input type="text" readonly class="start_time" id="start_time_'+id+'" data-time="${schedule.start.hour * 60 + schedule.start.minute}" value="8:00" /> - '+
-					'<input type="text" readonly class="end_time" id="end_time_'+id+'" data-time="${schedule.end.hour * 60 + schedule.end.minute}" value="20:00" />'+
+					'<input type="text" size="2" maxlength="2" class="start_hour" id="start_hour_'+id+'" value="8" />'+
+					' : '+
+					'<input type="text" size="2" maxlength="2" class="start_min" id="start_min_'+id+'" value="00" />'+
+					' - '+
+					'<input type="text" size="2" maxlength="2" class="end_hour" id="end_hour_'+id+'" value="20" />'+
+					' : '+
+					'<input type="text" size="2" maxlength="2" class="end_min" id="end_min_'+id+'" value="00" />'+
 					'<div class="slider" id="slider_'+id+'"></div>'+
 				'</td>'+
-				'<td></td>'+
+				'<td>'+
+				'<select class="blockid" id="blockid_'+id+'" name="blockid">'+
+				<c:forEach items="${layoutList}" var="layout" varStatus="layStat">
+					'<option value="${f:h(layout.id.id) }" <c:if test="${layStat.first}">selected</c:if>>${f:h(layout.id.id) }</option>'+
+				</c:forEach>
+			'</select>'+
+			'<a href="#" onclick="preview('+id+');return false;"><span class="ui-icon ui-icon-newwin"></span></a>'+
+				'</td>'+
 			'</tr>';
 	$("#schedule>tbody").append(html);
 	$("#slider_"+id).slider({
@@ -98,6 +124,49 @@ function addSchedule() {
 		values:[8*HOUR,20*HOUR],
 		slide: slideTime
 	});
+	$("#start_hour_"+id+",#start_min_"+id+",#end_hour_"+id+",#end_min_"+id)
+	.change(changeTime);
+}
+function preview(id) {
+	window.open("/view/"+$('#blockid_'+id).val()+"/preview", "preview");
+}
+function save() {
+	var name = $("#name").val();
+	var xml =
+		'<tl:timeline id="${tlid}" name="'+name+'" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:lo="http://uq.nskint.co.jp/uqSignage/layout" xmlns:tl="http://uq.nskint.co.jp/uqSignage/timeline" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uq.nskint.co.jp/uqSignage/timeline timeline.xsd http://uq.nskint.co.jp/uqSignage/layout layout.xsd http://www.w3.org/1999/xhtml xhtml1-strict.xsd ">';
+
+	var blocks = "";
+	var block_ids = [];
+	var schedules = "";
+	$(".schedules").each(
+			function(idx) {
+				var self = $(this);
+				var sid = self.find(".sch_id").text();
+				var bid = self.find(".blockid").val();
+				var start_hour = self.find(".start_hour").val();
+				var start_min = digitFormat(self.find(".start_min").val());
+				var end_hour = self.find(".end_hour").val();
+				var end_min = digitFormat(self.find(".end_min").val());
+				block_ids.push(bid);
+				if (idx == 0) {
+					  blocks += '<tl:block id="'+bid+'" layout_id="'+bid+'"/>';
+					  schedules += '<tl:schedule block_id="'+bid+'" id="'+sid+'" />';
+				} else {
+					var i;
+					for (i=0; i < block_ids.length; i++) {
+						if (block_ids[i] == bid) {
+							break;
+						}
+					}
+					if (i < block_ids.length) {
+						blocks += '<tl:block id="'+bid+'" layout_id="'+bid+'"/>';
+					}
+					schedules += '<tl:schedule block_id="'+bid+'" id="'+sid+'" start="'+start_hour+':'+start_min+':00" end="'+end_hour+':'+end_min+':00" />';
+				}
+			});
+	xml += blocks + schedules +	'</tl:timeline>';
+	$("#xml").val(xml);
+	$("#editForm").submit();
 }
 </script>
 </head>
@@ -109,9 +178,10 @@ function addSchedule() {
 <div class="clearfix">
 	<t:sidemenu/>
 	<div id="body_contents">
-		<form id="listForm" action="edit" method="post">
+		<form id="editForm" action="edit" method="post">
 			<input type="hidden" id="mid" name="mid" value="${mid}" />
 			<input type="hidden" id="tlid" name="tlid" value="${tlid}" />
+			<input type="hidden" id="xml" name="xml" value="" />
 			<div class="container">
 				名称：<input type="text" id="name" name="name" value="${timeline.name}" />
 			</div>
@@ -123,7 +193,7 @@ function addSchedule() {
 					<colgroup>
 						<col style="width:50px" />
 						<col style="width:80px" />
-						<col style="width:600px" />
+						<col style="width:700px" />
 						<col style="width:80px" />
 					</colgroup>
 					<thead>
@@ -136,7 +206,7 @@ function addSchedule() {
 					</thead>
 					<tbody>
 						<c:forEach items="${requestScope.timeline.schedule}" var="schedule" varStatus="sch_stat">
-							<tr id="sche_${schedule.id}">
+							<tr class="schedules" id="sche_${schedule.id}">
 								<td>
 									<c:if test="${not sch_stat.first}">
 										<input type="checkbox" name="selectSchedule" id="selectSchedule_${schedule.id}" value="${schedule.id}"/>
@@ -149,19 +219,31 @@ function addSchedule() {
 											default
 										</c:when>
 										<c:otherwise>
-											<input type="text" readonly class="start_time" id="start_time_${schedule.id}" data-time="${schedule.start.hour * 60 + schedule.start.minute}" value="${schedule.start.hour}:${schedule.start.minute}" />
+											<input type="text" size="2" maxlength="2" class="start_hour" id="start_hour_${schedule.id}" value="${schedule.start.hour}" />
+											:
+											<input type="text" size="2" maxlength="2" class="start_min" id="start_min_${schedule.id}" value="${schedule.start.minute}" />
 											-
-											<input type="text" readonly class="end_time" id="end_time_${schedule.id}" data-time="${schedule.end.hour * 60 + schedule.end.minute}" value="${schedule.end.hour}:${schedule.end.minute}" />
+											<input type="text" size="2" maxlength="2" class="end_hour" id="end_hour_${schedule.id}" value="${schedule.end.hour}" />
+											:
+											<input type="text" size="2" maxlength="2" class="end_min" id="end_min_${schedule.id}" value="${schedule.end.minute}" />
 											<div class="slider" id="slider_${schedule.id}"></div>
 										</c:otherwise>
 									</c:choose>
 								</td>
-								<td>${schedule.blockId}</td>
+								<td>
+								<select class="blockid" id="blockid_${schedule.id}" name="blockid">
+									<c:forEach items="${layoutList }" var="layout">
+										<option value="${f:h(layout.id.id) }" <c:if test="${schedule.blockId eq layout.id.id}">selected</c:if>>${f:h(layout.id.id) }</option>
+									</c:forEach>
+								</select>
+								<a href="#" onclick="preview(${schedule.id});return false;"><span class="ui-icon ui-icon-newwin"></span></a>
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</div>
+<%--
 			<div class="container">
 				表示内容：
 				<input type="button" class="button" id="addBlock" name="addBlock" value="追加" />
@@ -186,15 +268,23 @@ function addSchedule() {
 						<tr>
 							<td><input type="checkbox" name="selectSchedule" id="selectSchedule_${block.id}" /></td>
 							<td>${block.id}</td>
-							<td>${block.layoutId}</td>
+							<td>
+								<select id="lid_" name="lid">
+									<c:forEach items="${layoutList }" var="layout">
+										<option value="${f:h(layout.id.id) }" <c:if test="${block.layoutId eq layout.id.id}">selected</c:if>>${f:h(layout.id.id) }</option>
+									</c:forEach>
+								</select>
+								<a href="">プレビュー</a>
+							</td>
 							<td></td>
 						</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</div>
-			<div class="container">
-				<input type="button" class="button" value="登録" />
+--%>
+ 			<div class="container">
+				<input type="button" class="button" value="登録" onclick="save()"/>
 			</div>
 		</form>
 	</div>
