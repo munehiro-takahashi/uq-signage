@@ -17,6 +17,12 @@
 <link rel="stylesheet" href="/css/global.css" type="text/css" media="screen" charset="utf-8"/>
 <style type="text/css">
 </style>
+<script type="text/javascript">
+function reload() {
+	location.reload(true);
+}
+setTimeout(reload, ${reloadTime});
+</script>
 </head>
 <body>
 <c:forEach items="${layout.components}" var="component">
