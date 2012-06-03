@@ -49,6 +49,7 @@ public class ViewPage extends BasePage {
             LayoutInfo layout = tlService.getViewLayout(timeline);
             request.setAttribute("title", timeline.getXmlModel().getName());
             request.setAttribute("layout", layout.layout.getXmlModel());
+            request.setAttribute("reloadTime", layout.reloadTime.getTime() - new Date().getTime());
             request.setAttribute("title", "テスト");
             return forward("/view/view.jsp");
         } finally {
