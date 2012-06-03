@@ -1,6 +1,11 @@
 package jp.co.nskint.uq.pd.signage.page;
 
+import java.io.StringReader;
 import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.stream.StreamSource;
 
 import jp.co.nskint.uq.pd.signage.model.Layout;
 import jp.co.nskint.uq.pd.signage.model.Manager;
@@ -162,7 +167,8 @@ public class TimeLinePage extends BasePage {
     @ActionPath("save")
     public Navigation save(
             @RequestParam("mid") String mid,
-            @RequestParam("tlid") String tlid) {
+            @RequestParam("tlid") long tlid,
+            @RequestParam("xml") String xml) {
 
         final String methodName =
             Thread.currentThread().getStackTrace()[1].getMethodName();
@@ -175,9 +181,24 @@ public class TimeLinePage extends BasePage {
                 return forward("/error.jsp");
             }
 
-//            request.setAttribute("title", "タイムライン編集");
+            TimeLine timeline = tlService.get(tlid);
+            if(timeline == null) {
+                errors.put("page", "指定されたタイムラインは存在しません。");
+                return forward("/error.jsp");
+            }
 
-            return forward("/timeline/edit.jsp");
+            try {
+                JAXBContext context =
+                    JAXBContext.newInstance("jp.co.nskint.uq.pd.signage.model.xml");
+                TimeLineXml tlXml = (TimeLineXml) context.createUnmarshaller().unmarshal(new StreamSource(new StringReader(xml)));
+                timeline.setXmlModel(tlXml);
+            } catch (JAXBException e) {
+                throw new IllegalStateException(e);
+            }
+
+            tlService.put(manager, timeline);
+
+            return redirectToList(mid);
         }
         finally {
             logger.exiting(this.getClass().getName(), methodName);
