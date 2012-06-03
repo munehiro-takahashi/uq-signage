@@ -2,6 +2,8 @@
 package jp.co.nskint.uq.pd.signage.service;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -212,7 +214,9 @@ public class TimeLineService extends Service {
         final int nowMin = now.get(GregorianCalendar.MINUTE);
 
         TimeLineXml model = timeline.getXmlModel();
-        for (Schedule schedule : model.getSchedule()) {
+        ArrayList<Schedule> schedules = new ArrayList<Schedule>(model.getSchedule());
+        Collections.reverse(schedules);
+        for (Schedule schedule : schedules) {
             boolean before = true;
             if (schedule.getStart() != null) {
                 final GregorianCalendar start = schedule.getStart().toGregorianCalendar();
@@ -222,11 +226,18 @@ public class TimeLineService extends Service {
                 before = startHour < nowHour || startHour == nowHour && startMin <= nowMin;
             }
             boolean after = true;
+            GregorianCalendar end = now;
+            end.add(GregorianCalendar.DAY_OF_MONTH, 1);
+            end.set(GregorianCalendar.HOUR_OF_DAY, 0);
+            end.set(GregorianCalendar.MINUTE, 0);
+            end.set(GregorianCalendar.SECOND, 0);
+            end.set(GregorianCalendar.MILLISECOND, 0);
             if (schedule.getEnd() != null) {
-                final GregorianCalendar end = schedule.getEnd().toGregorianCalendar();
+                end = schedule.getEnd().toGregorianCalendar();
                 final int endHour = end.get(GregorianCalendar.HOUR_OF_DAY);
                 final int endMin = end.get(GregorianCalendar.MINUTE);
-                before = endHour > nowHour || endHour == nowHour && endMin >= nowMin;
+
+                after = endHour > nowHour || endHour == nowHour && endMin >= nowMin;
             }
             if (before && after) {
                 for (Block block : model.getBlock()) {
@@ -234,13 +245,11 @@ public class TimeLineService extends Service {
                         LayoutService layoutService = new LayoutService();
                         LayoutInfo result = new LayoutInfo();
                         result.layout = layoutService.get(timeline.getManagerRef().getModel(), Long.parseLong(block.getLayoutId()));
-                        result.reloadTime = null;
+                        result.reloadTime = end.getTime();
                         return result;
                     }
                 }
-                break;
             }
-
         }
         return null;
     }
