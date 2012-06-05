@@ -4,6 +4,7 @@ package jp.co.nskint.uq.pd.signage.page;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+//import java.util.Enumeration;
 import java.util.List;
 
 import org.slim3.controller.Navigation;
@@ -30,19 +31,20 @@ import scenic3.annotation.RequestParam;
  */
 @Page("/layout")
 public class LayoutPage extends BasePage {
+    private String XML_PACKAGE = "jp.co.nskint.uq.pd.signage.model.xml";
     private LayoutService lService = new LayoutService();
     private ManagerService mService = new ManagerService();
     
+    /**
+     * 指定の代表者が所有するレイアウト一覧を表示するアクション
+     * @param mid 代表者ID
+     * @return
+     */
     @Default
     public Navigation list(@RequestParam("mid") String mid){
         final String methodName =
                 Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.entering(this.getClass().getName(), methodName);
-//        // 管理者とマネージャ以外は権限エラー
-//        if( !checkAdmin() && !checkManager()) {
-//            errors.put("page", ApplicationMessage.get("error.authority"));
-//            return forward("/error.jsp");
-//        }
         
         try {
             List<Layout> layoutList = new ArrayList<Layout>();
@@ -74,6 +76,8 @@ public class LayoutPage extends BasePage {
     
     /**
      * レイアウト編集画面を表示するアクション
+     * @param mid 代表者ID
+     * @param lid レイアウトID
      * @return
      */
     @ActionPath("edit")
@@ -134,7 +138,10 @@ public class LayoutPage extends BasePage {
     
     /**
      * レイアウトを保存するアクション
-     * @return 
+     * @param mid 代表者ID
+     * @param lid レイアウトID
+     * @param sum コンポーネント総数
+     * @return
      */
     @ActionPath("save")
     public Navigation save(
@@ -146,7 +153,7 @@ public class LayoutPage extends BasePage {
         logger.entering(this.getClass().getName(), methodName);
         
         try {
-//            this.requestDump();
+            this.requestDump();
             
             Manager manager = (Manager)mService.get(mid);
             if(manager == null) {
@@ -167,7 +174,7 @@ public class LayoutPage extends BasePage {
                 
                 try {
                     @SuppressWarnings("unchecked")
-                    Class<ComponentType> clazz = (Class<ComponentType>) Class.forName(className);
+                    Class<ComponentType> clazz = (Class<ComponentType>) Class.forName(XML_PACKAGE + "." + className);
                     
                     if( clazz == null) {
                         continue;
@@ -204,7 +211,6 @@ public class LayoutPage extends BasePage {
             layout.setXmlModel(layoutXml);
             layout.setUpdatedDate(now);
             
-//            manager.getLayoutListRef().getModelList().add(layout);
             layout.setManagerRef(manager);
             lService.put(manager, layout);
             
@@ -247,20 +253,25 @@ public class LayoutPage extends BasePage {
         logger.info(sb.toString());
     }
     
-    @ActionPath("createmanager")
-    public Navigation createmanager() {
-        ManagerService service = new ManagerService();
-        service.put(
-            "testmanager",
-            "テストマネージャ",
-            "test@localhostdomain.jp",
-            "0587-000-0000",
-            "4820043",
-            "愛知県岩倉市本町");
-        service.savePassword("testmanager", "password");
-        return redirect("/layout/edit");
-    }
+//    @ActionPath("createmanager")
+//    public Navigation createmanager() {
+//        ManagerService service = new ManagerService();
+//        service.put(
+//            "testmanager",
+//            "テストマネージャ",
+//            "test@localhostdomain.jp",
+//            "0587-000-0000",
+//            "4820043",
+//            "愛知県岩倉市本町");
+//        service.savePassword("testmanager", "password");
+//        return redirect("/layout/edit");
+//    }
     
+    /**
+     * レイアウトを削除するアクション
+     * @param mid 代表者ID
+     * @return
+     */
     @ActionPath("delete")
     public Navigation delete(@RequestParam("mid") String mid) {
         final String methodName =
