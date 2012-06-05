@@ -3,21 +3,21 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="f" uri="http://www.slim3.org/functions"%>
+<%@taglib prefix="e" uri="http://uq.nskint.co.jp/pd/taglibs/uqSignage-editor"%>
 <!DOCTYPE HTML>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <title>Layout Editor</title>
 <link rel="stylesheet" href="/css/html5reset.css" />
-<link rel="stylesheet" href="/css/jquery-ui/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="/css/custom-theme/jquery-ui.custom.css" />
 <script type="text/javascript" src="/js/jquery.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
 <style>
 .component {
-	width: 400px;
-	height: 300px;
 	border: solid 1px #000000;
 	background-color: lightgray;
+	position: absolute;
 }
 
 .component_ctrl {
@@ -68,12 +68,13 @@ $(function(){
 //	addComponentCtrl();
 });
 
+
+// 設定ダイアログを表示する
 function openEditDialog(id) {
 	var dialogName = id + "_dialog";
 	$("#" + dialogName).dialog({
 		buttons: {
 			"登録" : function(event) {
-				// TODO: 登録処理を実行する
 				$(this).dialog("close");
 			},
 			"キャンセル" : function(event) {
@@ -87,59 +88,132 @@ function openEditDialog(id) {
 	});
 }
 
+// レイアウトを表示する。
 function saveLayout() {
 	$("div.component").each(
 		function(){
 			var index  = getIndexFromAttr($(this).attr("id"));
 			$("#" + index + "_x").val(getPixel($(this).css("left")));
 			$("#" + index + "_y").val(getPixel($(this).css("top")));
-			$("#" + index + "_width").val(getNumber($(this).width()));
-			$("#" + index + "_height").val(getNumber($(this).height()));
+			$("#" + index + "_width").val(toNumber($(this).width()));
+			$("#" + index + "_height").val(toNumber($(this).height()));
 		}
 	);
 	$("#sum").val( sum );
 	$("form").submit();
 }
 
+// スタイル値にpxが含まれる文字列から数値部分を取得する
 function getPixel(value) {
 	if(value == null || value == "") {
 		return 0;
 	}
-
+	
 	if(value.match(/^([0-9]+)px$/)) {
-		return getNumber(RegExp.$1);
+		return toNumber(RegExp.$1);
 	}
-
+	
 	return 0;
 }
-function getNumber(value) {
+
+// 文字列から数値を取得する。
+function toNumber(value) {
 	if(value == null || value == "") {
 		return 0;
 	}
-
+	
 	if(isNaN(value)) {
 		return 0;
 	}
-
+	
 	return parseInt(value);
 }
 
+// 引数のHTML属性からインデックスを取得する。
 function getIndexFromAttr( attr ) {
 	// 検索対象の属性が指定されていない場合
 	if(attr == null || attr == "") {
 		return -1;
 	}
-
+	
 	// インデックスが取得できない場合
 	if(!attr.match("^([0-9]+)_.+")) {
 		return -1;
 	}
-
-	return getNumber(RegExp.$1);
+	
+	return toNumber(RegExp.$1);
 }
 
 function back() {
 	$("#editForm").attr("action", "/layout/").submit();
+}
+
+/// コンポーネントの追加ダイアログを表示する。
+function openAddComponentDialog() {
+	$("#addComponentDialog :checkbox:checked").removeAttr("checked");
+	$("#addComponentDialog").dialog({
+		buttons: {
+			"登録" : function(event) {
+				$("#addComponentDialog :checkbox:checked").each(requestNewComponent);
+				$(this).dialog("close");
+			},
+			"キャンセル" : function(event) {
+				$(this).dialog("close");
+			}
+		},
+		draggable: true,
+		resizable: true,
+		modal: true,
+		closeText: ""
+	});	
+}
+
+// 新規コンポーネントをリクエストする。
+function requestNewComponent() {
+	var index = $(this).val();
+	var cls = $("#addComp_class_" + index).val();
+	var url = $("#addComp_url_" + index).val();
+	
+	var index = sum++;
+	url += "?index=" + index;
+	$.get(url,function(data){ putNewComponent(cls, index, data) });
+}
+
+// 新規コンポーネントを配置する。
+function putNewComponent(cls, index, data) {
+	$("#editForm").append($("<input/>")
+		.attr("type", "hidden")
+		.attr("name", index + "_ComponentClassName")
+		.val(cls)
+	);
+	
+	dialog = $("<div/>")
+		.addClass("edit_dialog")
+		.attr("id", cls + "_" + index + "_dialog")
+		.attr("title", "コンポーネントの設定")
+		.html(data)
+		.hide();
+	$("#editForm").append(dialog);
+	
+	component = $("<div/>")
+	.addClass("component")
+	.attr("id", index + "_component")
+	.html(cls + "クラスのダミー")
+	.resizable().draggable()
+	.css("top", 0)
+	.css("left", 0)
+	.css("width", $("#" + index + "_width").val())
+	.css("height", $("#" + index + "_height").val());
+	
+	componentCtrl = $("<div/>").addClass("component_ctrl")
+	ctrl = $("<input/>")
+		.attr("type", "button")
+		.attr("value", "編集")
+		.click(function(){ openEditDialog(cls+"_" + index); });
+		
+	componentCtrl.append(ctrl);
+	component.append(componentCtrl);
+	$("#editForm").append(component);
 }
 
 </script>
@@ -148,7 +222,7 @@ function back() {
 	<div id="layout-ctrl">
 		<input type="button" value="戻る" onclick="back()" />
 <!-- 		<span id="layout-name-input" style="margin-left: 30px;">レイアウト名：<input type="text" size="60" /></span> -->
-		<input type="button" value="要素を追加" onclick="javascript:alert('【未作成】要素を追加します。');" />
+		<input type="button" value="要素を追加" onclick="openAddComponentDialog();" />
 		<input type="button" value="保存" onclick="saveLayout();" />
 	</div>
 	<div id="edit-panel">
@@ -160,7 +234,7 @@ function back() {
 					</div>
 					${component.class.simpleName}クラスのダミー<br/>
 				</div>
-				<input type="hidden" name="${stat.index }_ComponentClassName" value="${component.class.name}" />
+				<input type="hidden" name="${stat.index }_ComponentClassName" value="${component.class.simpleName}" />
 				<div id="${component.class.simpleName}_${stat.index }_dialog"  class="edit_dialog" style="display:none;"
 					title="コンポーネントの設定">
 					<c:choose>
@@ -189,47 +263,22 @@ function back() {
 							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'StreamVideo'}">
-
 							<c:import url="/components/form/stream_video.jsp">
 								<c:param name="index"  value="${stat.index}"/>
 								<c:param name="url"    value="${component.url}"/>
 								<c:param name="width"  value="${component.width}"/>
 								<c:param name="height" value="${component.height}"/>
 								<c:param name="type"   value="${component.type}"/>
+								<c:param name="x"      value="${component.x}"/>
+								<c:param name="y"      value="${component.y}"/>
 							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Marquee'}">
 							<c:import url="/marquee/form">
-								<c:param name="index"  value="${stat.index}"/>
-								<c:param name="content" value="${component.value}"/>
-								<c:param name="fontFamily" value="${component.fontFamily}"/>
-								<c:param name="fontSize" value="${component.fontSize}"/>
-								<c:param name="fontColor" value="${component.fontColor}"/>
-								<c:param name="fontStyle" value="${component.fontStyle}"/>
-								<c:param name="bounce" value="${component.bounce}"/>
-								<c:param name="repeat" value="${component.repeat}"/>
-								<c:param name="direction" value="${component.direction}"/>
-								<c:param name="writtenDirection" value="${component.orientation}"/>
-								<c:param name="speed" value="${component.speed}"/>
-								<c:param name="width" value="${component.width}"/>
-								<c:param name="height" value="${component.height}"/>
 							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'BarGraph'}">
-							<c:import url="/bar_graph/form">
-								<c:param name="index"  value="${stat.index}"/>
-								<c:param name="data" value="${component.data}"/>
-								<c:param name="data_caption" value="${component.dataCaption}"/>
-								<c:param name="scale_caption" value="${component.scaleCaption}"/>
-								<c:param name="scale_max" value="${component.scaleMax}"/>
-								<c:param name="scale_min" value="${component.scaleMin}"/>
-								<c:param name="scale_step" value="${component.scaleStep}"/>
-								<c:param name="orientation" value="${component.orientation}"/>
-								<c:param name="bar_width" value="${component.barWidth}"/>
-								<c:param name="bar_margin" value="${component.barMargin}"/>
-								<c:param name="width" value="${component.width}"/>
-								<c:param name="height" value="${component.height}"/>
-							</c:import>
+							<c:import url="/bar_graph/form"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'LineGraph'}">
 							<c:import url="/line_graph/form"/>
@@ -238,15 +287,105 @@ function back() {
 							<c:import url="/pie_graph/form"/>
 						</c:when>
 					</c:choose>
-					<input type="hidden" id="${stat.index }_x"      name="${stat.index }_x"      value="${component.x }" />
-					<input type="hidden" id="${stat.index }_y"      name="${stat.index }_y"      value="${component.y }" />
-					<input type="hidden" id="${stat.index }_width"  name="${stat.index }_width"  value="${component.width }" />
-					<input type="hidden" id="${stat.index }_height" name="${stat.index }_height" value="${component.height }" />
 				</div>
 			</c:forEach>
 			<input type="hidden" name="lid" value="${lid }" />
 			<input type="hidden" name="mid" value="${mid }" />
 			<input type="hidden" id="sum" name="sum" value="" />
+			
+			<div id="addComponentDialog" style="display:none" title="コンポーネントの追加">
+				<table>
+					<tr>
+						<td><input type="checkbox" value="1" /></td>
+						<td>
+							テキスト
+							<input type="hidden" id="addComp_class_1" value="Text" />
+							<input type="hidden" id="addComp_url_1" value="/text/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="2" /></td>
+						<td>
+							HTML
+							<input type="hidden" id="addComp_class_2" value="Html" />
+							<input type="hidden" id="addComp_url_2" value="/html/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="3" /></td>
+						<td>
+							テーブル
+							<input type="hidden" id="addComp_class_3" value="Table" />
+							<input type="hidden" id="addComp_url_3" value="/table/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="4" /></td>
+						<td>
+							画像
+							<input type="hidden" id="addComp_class_4" value="Image" />
+							<input type="hidden" id="addComp_url_4" value="/image/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="5" /></td>
+						<td>
+							音楽
+							<input type="hidden" id="addComp_class_5" value="Audio" />
+							<input type="hidden" id="addComp_url_5" value="/audio/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="6" /></td>
+						<td>
+							動画
+							<input type="hidden" id="addComp_class_6" value="Video" />
+							<input type="hidden" id="addComp_url_6" value="/video/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="7" /></td>
+						<td>
+							ストリームビデオ
+							<input type="hidden" id="addComp_class_7" value="StreamVideo" />
+							<input type="hidden" id="addComp_url_7" value="/stream/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="8" /></td>
+						<td>
+							マーキー
+							<input type="hidden" id="addComp_class_8" value="Marquee" />
+							<input type="hidden" id="addComp_url_8" value="/marquee/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="9" /></td>
+						<td>
+							棒グラフ
+							<input type="hidden" id="addComp_class_9" value="BarGraph" />
+							<input type="hidden" id="addComp_url_9" value="/bar_graph/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="10" /></td>
+						<td>
+							線グラフ
+							<input type="hidden" id="addComp_class_10" value="LineGraph" />
+							<input type="hidden" id="addComp_url_10" value="/line_graph/form" />
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" value="11" /></td>
+						<td>
+							円グラフ
+							<input type="hidden" id="addComp_class_11" value="PieGraph" />
+							<input type="hidden" id="addComp_url_11" value="/pie_graph/form" />
+						</td>
+					</tr>
+				</table>
+			</div>
+			
 		</form>
 	</div>
 </body>
