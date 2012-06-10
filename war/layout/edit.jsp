@@ -195,15 +195,18 @@ function putNewComponent(cls, index, data) {
 		.hide();
 	$("#editForm").append(dialog);
 	
+	var width = $("#" + index + "_width").val();
+	var height = $("#" + index + "_height").val();
+	
 	component = $("<div/>")
 	.addClass("component")
 	.attr("id", index + "_component")
 	.html(cls + "クラスのダミー")
 	.resizable().draggable()
-	.css("top", 0)
-	.css("left", 0)
-	.css("width", $("#" + index + "_width").val())
-	.css("height", $("#" + index + "_height").val());
+	.css("top", $("#editForm").height() / 2 + height / 2)
+	.css("left", $("#editForm").width() / 2 - width / 2)
+	.css("width", width)
+	.css("height", height);
 	
 	componentCtrl = $("<div/>").addClass("component_ctrl")
 	ctrl = $("<input/>")
