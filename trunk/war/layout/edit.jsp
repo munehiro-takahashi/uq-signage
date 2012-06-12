@@ -84,7 +84,11 @@ function openEditDialog(id) {
 		draggable: true,
 		resizable: true,
 		modal: true,
-		closeText: ""
+		closeText: "",
+		close: function(event) {
+			// ダイアログクローズ時にダイアログの要素をフォーム内に戻す
+			$(this).parent().appendTo("#edit-form");
+		}
 	});
 }
 
@@ -145,7 +149,7 @@ function getIndexFromAttr( attr ) {
 }
 
 function back() {
-	$("#editForm").attr("action", "/layout/").submit();
+	$("#edit-form").attr("action", "/layout/").submit();
 }
 
 /// コンポーネントの追加ダイアログを表示する。
@@ -181,7 +185,9 @@ function requestNewComponent() {
 
 // 新規コンポーネントを配置する。
 function putNewComponent(cls, index, data) {
-	$("#editForm").append($("<input/>")
+	editPanel = $("#edit-panel");
+	editForm = $("#edit-form");
+	editForm.append($("<input/>")
 		.attr("type", "hidden")
 		.attr("name", index + "_ComponentClassName")
 		.val(cls)
@@ -193,7 +199,7 @@ function putNewComponent(cls, index, data) {
 		.attr("title", "コンポーネントの設定")
 		.html(data)
 		.hide();
-	$("#editForm").append(dialog);
+	editForm.append(dialog);
 	
 	var width = $("#" + index + "_width").val();
 	var height = $("#" + index + "_height").val();
@@ -203,8 +209,8 @@ function putNewComponent(cls, index, data) {
 	.attr("id", index + "_component")
 	.html(cls + "クラスのダミー")
 	.resizable().draggable()
-	.css("top", $("#editForm").height() / 2 + height / 2)
-	.css("left", $("#editForm").width() / 2 - width / 2)
+	.css("top", editPanel.height() / 2 + height / 2)
+	.css("left", editPanel.width() / 2 - width / 2)
 	.css("width", width)
 	.css("height", height);
 	
@@ -216,7 +222,7 @@ function putNewComponent(cls, index, data) {
 		
 	componentCtrl.append(ctrl);
 	component.append(componentCtrl);
-	$("#editForm").append(component);
+	editForm.append(component);
 }
 
 </script>
@@ -229,7 +235,7 @@ function putNewComponent(cls, index, data) {
 		<input type="button" value="保存" onclick="saveLayout();" />
 	</div>
 	<div id="edit-panel">
-		<form id="editForm" action="/layout/save" method="post">
+		<form id="edit-form" action="/layout/save" method="post">
 			<c:forEach items="${layout.components}" var="component" varStatus="stat">
 				<div class="component" id="${stat.index }_component" style="top:${component.y}px;left:${component.x}px;width:${component.width}px;height:${component.height}px;">
 					<div class="component_ctrl">
@@ -388,7 +394,6 @@ function putNewComponent(cls, index, data) {
 					</tr>
 				</table>
 			</div>
-			
 		</form>
 	</div>
 </body>
