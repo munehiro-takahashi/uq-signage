@@ -34,7 +34,7 @@ public class LayoutPage extends BasePage {
     private String XML_PACKAGE = "jp.co.nskint.uq.pd.signage.model.xml";
     private LayoutService lService = new LayoutService();
     private ManagerService mService = new ManagerService();
-    
+
     /**
      * 指定の代表者が所有するレイアウト一覧を表示するアクション
      * @param mid 代表者ID
@@ -45,35 +45,35 @@ public class LayoutPage extends BasePage {
         final String methodName =
                 Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.entering(this.getClass().getName(), methodName);
-        
+
         try {
             List<Layout> layoutList = new ArrayList<Layout>();
-            
+
             // マネージャIDが与えられていない場合
             if(mid == null || mid.isEmpty()) {
                 errors.put("page", "マネージャIDが指定されていません。");
                 return forward("/error.jsp");
             }
-            
+
             Manager manager = (Manager)mService.get(mid);
-            
+
             if(manager == null) {
                 errors.put("page", "指定されたマネージャは存在しません。");
                 return forward("/error.jsp");
             }
-            
+
             layoutList =  manager.getLayoutListRef().getModelList();
-            
+
             request.setAttribute("layoutList", layoutList);
             request.setAttribute("manager", manager);
-            
+
             return forward("/layout/list.jsp");
         }
         finally {
             logger.exiting(this.getClass().getName(), methodName);
         }
     }
-    
+
     /**
      * レイアウト編集画面を表示するアクション
      * @param mid 代表者ID
@@ -85,22 +85,23 @@ public class LayoutPage extends BasePage {
         final String methodName =
                 Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.entering(this.getClass().getName(), methodName);
-        
+
 //        this.requestDump();
-        
+      //test
+
         try {
             Manager manager = (Manager)mService.get(mid);
             if(manager == null) {
                 errors.put("page", "指定されたマネージャは存在しません。");
                 return forward("/error.jsp");
             }
-            
+
             LayoutXml layoutXml = null;
             // 新規登録の場合
             if(lid < 1) {
                 layoutXml = new LayoutXml();
-                
-                // DEBUG 
+
+                // DEBUG
                 StreamVideo video = new StreamVideo();
                 video.setUrl("http://www.ustream.tv/embed/10065127");
                 video.setHeight(400);
@@ -108,13 +109,13 @@ public class LayoutPage extends BasePage {
                 video.setX(40);
                 video.setY(100);
                 video.setType(StreamVideoType.UST);
-                
+
                 layoutXml.getComponents().add(video);
             }
             // 更新の場合
             else {
                 Layout layout = lService.get(manager, lid);
-                
+
                 // レイアウトXMLを取得
                 if(layout != null) {
                     layoutXml = layout.getXmlModel();
@@ -123,19 +124,19 @@ public class LayoutPage extends BasePage {
                     layoutXml = new LayoutXml();
                 }
             }
-            
+
             this.request.setAttribute("mid", mid);
             this.request.setAttribute("lid", lid);
             this.request.setAttribute("layout", layoutXml);
-            
+
             return forward("/layout/edit.jsp");
         }
         finally {
             logger.exiting(this.getClass().getName(), methodName);
         }
     }
-    
-    
+
+
     /**
      * レイアウトを保存するアクション
      * @param mid 代表者ID
@@ -151,35 +152,35 @@ public class LayoutPage extends BasePage {
         final String methodName =
                 Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.entering(this.getClass().getName(), methodName);
-        
+
         try {
             this.requestDump();
-            
+
             Manager manager = (Manager)mService.get(mid);
             if(manager == null) {
                 errors.put("page", "指定されたマネージャは存在しません。");
                 return forward("/error.jsp");
             }
-            
+
             Date now = new Date();
             LayoutXml layoutXml = new LayoutXml();
-            
+
             for(int i = 0; i < sum; i++) {
                 // クラス名からインスタンスを生成する。
                 String className = this.request.getParameter(i + "_ComponentClassName");
-                
+
                 if( className == null || className.isEmpty() ) {
                     continue;
                 }
-                
+
                 try {
                     @SuppressWarnings("unchecked")
                     Class<ComponentType> clazz = (Class<ComponentType>) Class.forName(XML_PACKAGE + "." + className);
-                    
+
                     if( clazz == null) {
                         continue;
                     }
-                    
+
                     ComponentType component = clazz.newInstance();
                     NumberingParamaterMap map = new NumberingParamaterMap(this.request);
                     map.setNumber(i);
@@ -196,7 +197,7 @@ public class LayoutPage extends BasePage {
             }
             // 保存
             Layout layout = null;
-            
+
             // 新規登録の場合
             if(lid < 1) {
                 layout = new Layout();
@@ -207,13 +208,13 @@ public class LayoutPage extends BasePage {
             else {
                 layout = lService.get(manager, lid);
             }
-            
+
             layout.setXmlModel(layoutXml);
             layout.setUpdatedDate(now);
-            
+
             layout.setManagerRef(manager);
             lService.put(manager, layout);
-            
+
             // 編集画面に遷移する。
             return redirect("/layout/edit?mid=" + manager.getUid().getName()+"&lid=" + layout.getId().getId());
         }
@@ -221,7 +222,7 @@ public class LayoutPage extends BasePage {
             logger.exiting(this.getClass().getName(), methodName);
         }
     }
-    
+
     /**
      * DEBUG用
      * リクエストパラメータを全て表示する。
@@ -235,7 +236,7 @@ public class LayoutPage extends BasePage {
             sb.append("\n");
             sb.append(name);
             sb.append(": ");
-            
+
             String[] values = this.request.getParameterValues(name);
             if( values == null ) {
                 sb.append("null");
@@ -252,7 +253,7 @@ public class LayoutPage extends BasePage {
         }
         logger.info(sb.toString());
     }
-    
+
 //    @ActionPath("createmanager")
 //    public Navigation createmanager() {
 //        ManagerService service = new ManagerService();
@@ -266,7 +267,7 @@ public class LayoutPage extends BasePage {
 //        service.savePassword("testmanager", "password");
 //        return redirect("/layout/edit");
 //    }
-    
+
     /**
      * レイアウトを削除するアクション
      * @param mid 代表者ID
@@ -277,20 +278,20 @@ public class LayoutPage extends BasePage {
         final String methodName =
                 Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.entering(this.getClass().getName(), methodName);
-        
+
         try {
 //            this.requestDump();
-            
+
             Manager manager = (Manager)mService.get(mid);
             if(manager == null) {
                 errors.put("page", "指定されたマネージャは存在しません。");
                 return forward("/error.jsp");
             }
-            
+
             String[] values = this.request.getParameterValues("lids");
-            
+
             List<Long> lids = new ArrayList<Long>();
-            
+
             if(values != null) {
                 for( String value : values) {
                     try{
@@ -300,10 +301,10 @@ public class LayoutPage extends BasePage {
                         continue;
                     }
                 }
-                
+
                 lService.delete(manager, lids);
             }
-            
+
             // 編集画面に遷移する。
             return redirect("/layout/?mid=" + mid);
         }
