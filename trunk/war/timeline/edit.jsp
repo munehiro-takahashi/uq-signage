@@ -233,7 +233,7 @@ function save() {
 								<td>
 								<select class="blockid" id="blockid_${schedule.id}" name="blockid">
 									<c:forEach items="${layoutList }" var="layout">
-										<option value="${f:h(layout.id.id) }" <c:if test="${schedule.blockId eq layout.id.id}">selected</c:if>>${f:h(layout.id.id) }</option>
+										<option value="${f:h(layout.id.id) }" <c:if test="${schedule.blockId eq layout.id.id}">selected</c:if>>${f:h(layout.id.id) }:${f:h(layout.xmlModel.name) }</option>
 									</c:forEach>
 								</select>
 								<a href="#" onclick="preview(${schedule.id});return false;"><span class="ui-icon ui-icon-newwin"></span></a>
