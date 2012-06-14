@@ -138,7 +138,7 @@ function editTimeline(tlid) {
 			    デフォルトレイアウトID：
 				<select id="lid_" name="lid">
 					<c:forEach items="${layoutList }" var="layout">
-							<option value="${f:h(layout.id.id) }">${f:h(layout.id.id) }</option>
+							<option value="${f:h(layout.id.id) }">${f:h(layout.id.id) }:${f:h(layout.xmlModel.name) }</option>
 					</c:forEach>
 				</select>
 			</div>
