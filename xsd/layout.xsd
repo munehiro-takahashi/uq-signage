@@ -13,6 +13,10 @@
  		</annotation>
 		<complexType>
 			<group ref="lo:components" minOccurs="0" maxOccurs="unbounded"/>
+			<attribute name="id" type="string" use="required"/>
+			<attribute name="name" type="string"/>
+			<attribute name="height" type="unsignedShort"/>
+			<attribute name="width" type="unsignedShort"/>
 		</complexType>
 	</element>
 	<attributeGroup name="attrs">
