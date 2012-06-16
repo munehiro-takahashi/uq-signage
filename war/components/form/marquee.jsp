@@ -43,17 +43,17 @@
 		<td>テキストの流れる方向</td>
 		<td>
 			<select name="${index}_direction">
-				<option value="right"
+				<option value="RIGHT"
 					<c:if test="${direction=='right'}">selected="selected"</c:if>
 				>Right</option>
-				<option value="left"
+				<option value="LEFT"
 					<c:if test="${direction=='left'}">selected="selected"</c:if>
 				>Left</option>
-				<option value="top"
-					<c:if test="${direction=='top'}">selected="selected"</c:if>
+				<option value="UP"
+					<c:if test="${direction=='up'}">selected="selected"</c:if>
 				>Top</option>
-				<option value="bottom"
-					<c:if test="${direction=='bottom'}">selected="selected"</c:if>
+				<option value="DOWN"
+					<c:if test="${direction=='down'}">selected="selected"</c:if>
 				>Bottom</option>
 			</select>
 		</td>
