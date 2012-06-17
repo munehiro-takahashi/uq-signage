@@ -24,7 +24,7 @@ function reload() {
 setTimeout(reload, ${reloadTime});
 </script>
 </head>
-<body>
+<body style="width:${layout.width}px;height:${layout.height}px;overflow:hidden;">
 <c:forEach items="${layout.components}" var="component">
  <div style="position:absolute;top:${component.y}px;left:${component.x}px;width:${component.width}px;height:${component.height}px;">
   <c:choose>
