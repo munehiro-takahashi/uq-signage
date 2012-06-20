@@ -52,13 +52,15 @@ function editLayout(lid) {
 					<tr>
 						<td>削除</td>
 						<td>編集</td>
+						<td>レイアウト名</td>
 						<td>代表者名</td>
-						<td>登録者</td>
+						<td>サイズ</td>
 						<td>更新日</td>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${layoutList }" var="layout">
+					<c:set var="xml" value="layout.xmlModel"/>
 					<tr>
 						<td>
 							<input type="checkbox" name="lids" value="${f:h(layout.id.id) }" onclick="onClickCheckBox();" />
@@ -66,14 +68,15 @@ function editLayout(lid) {
 						<td>
 							<input type="button" value="編集" onclick="editLayout( '${f:h(layout.id.id) }' );" />
 						</td>
-						<td>${manager.name }</td>
-						<td>${layout.registeredDate }</td>
+						<td>${f:h(layout.xmlModel.name)}</td>
+						<td>${f:h(manager.name)}</td>
+						<td>${f:h(layout.xmlModel.width)}×${f:h(layout.xmlModel.height)}</td>
 						<td>${layout.updatedDate }</td>
 					</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-			<input type="hidden" id="mid" name="mid" value="${mid }" />
+			<input type="hidden" id="mid" name="mid" value="${f:h(mid) }" />
 			<input type="hidden" id="lid" name="lid" value="" />
   		</form>
 	</div>

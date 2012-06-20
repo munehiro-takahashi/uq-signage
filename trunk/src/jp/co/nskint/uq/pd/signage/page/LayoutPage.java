@@ -15,8 +15,6 @@ import jp.co.nskint.uq.pd.signage.model.Layout;
 import jp.co.nskint.uq.pd.signage.model.Manager;
 import jp.co.nskint.uq.pd.signage.model.xml.ComponentType;
 import jp.co.nskint.uq.pd.signage.model.xml.LayoutXml;
-import jp.co.nskint.uq.pd.signage.model.xml.StreamVideo;
-import jp.co.nskint.uq.pd.signage.model.xml.StreamVideoType;
 import jp.co.nskint.uq.pd.signage.service.LayoutService;
 import jp.co.nskint.uq.pd.signage.service.ManagerService;
 import jp.co.nskint.uq.pd.signage.util.NumberingParamaterMap;
@@ -31,6 +29,15 @@ import scenic3.annotation.RequestParam;
  */
 @Page("/layout")
 public class LayoutPage extends BasePage {
+    /** 初期レイアウト名 */
+    private static final String DEFAULT_NAME = "名称未設定";
+  
+    /** 初期幅 */
+    private static final int DEFAULT_WIDTH = 1024;
+  
+    /** 初期高さ */
+    private static final int DEFAULT_HEIGHT = 768;
+
     private String XML_PACKAGE = "jp.co.nskint.uq.pd.signage.model.xml";
     private LayoutService lService = new LayoutService();
     private ManagerService mService = new ManagerService();
@@ -86,35 +93,26 @@ public class LayoutPage extends BasePage {
                 Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.entering(this.getClass().getName(), methodName);
 
-//        this.requestDump();
-      //test
-
         try {
             Manager manager = (Manager)mService.get(mid);
             if(manager == null) {
                 errors.put("page", "指定されたマネージャは存在しません。");
                 return forward("/error.jsp");
             }
-
+            
+            Layout layout = null;
             LayoutXml layoutXml = null;
             // 新規登録の場合
             if(lid < 1) {
+                layout = new Layout();
                 layoutXml = new LayoutXml();
-
-                // DEBUG
-                StreamVideo video = new StreamVideo();
-                video.setUrl("http://www.ustream.tv/embed/10065127");
-                video.setHeight(400);
-                video.setWidth(600);
-                video.setX(40);
-                video.setY(100);
-                video.setType(StreamVideoType.UST);
-
-                layoutXml.getComponents().add(video);
+                layoutXml.setName(DEFAULT_NAME);
+                layoutXml.setHeight(DEFAULT_HEIGHT);
+                layoutXml.setWidth(DEFAULT_WIDTH);
             }
             // 更新の場合
             else {
-                Layout layout = lService.get(manager, lid);
+                layout = lService.get(manager, lid);
 
                 // レイアウトXMLを取得
                 if(layout != null) {
@@ -127,7 +125,8 @@ public class LayoutPage extends BasePage {
 
             this.request.setAttribute("mid", mid);
             this.request.setAttribute("lid", lid);
-            this.request.setAttribute("layout", layoutXml);
+            this.request.setAttribute("layout", layout);
+            this.request.setAttribute("layoutXml", layoutXml);
 
             return forward("/layout/edit.jsp");
         }
@@ -148,7 +147,10 @@ public class LayoutPage extends BasePage {
     public Navigation save(
             @RequestParam("mid") String mid,
             @RequestParam("lid") long lid,
-            @RequestParam("sum") int sum) {
+            @RequestParam("sum") int sum,
+            @RequestParam("layoutName") String layoutName,
+            @RequestParam("width") int width,
+            @RequestParam("height") int height) {
         final String methodName =
                 Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.entering(this.getClass().getName(), methodName);
@@ -209,6 +211,9 @@ public class LayoutPage extends BasePage {
                 layout = lService.get(manager, lid);
             }
 
+            layoutXml.setName(layoutName);
+            layoutXml.setWidth(width);
+            layoutXml.setHeight(height);
             layout.setXmlModel(layoutXml);
             layout.setUpdatedDate(now);
 

@@ -39,35 +39,47 @@
 #layout-ctrl {
 	background-color: #e6ebf1;
 	width:100%;
-	position: fixed;
 	top: 0px;
 	padding: 5px;
 	vertical-align: middle;
   	border:1px solid #999;
   	z-index: 1;
+/*
 	opacity: 0.2;
 	-webkit-transition: opacity 0.2s linear;
 	-moz-transition: 0.2s;
+*/
 }
 #layout-ctrl:hover {
-	opacity:1.0;
+/*	opacity:1.0;*/
 }
 
-#resize_test {
-	width: 400px;
-	height: 250px;
-	background-color: red;
+#edit-panel {
+	width: ${f:h(layoutXml.width)}px;
+	height: ${f:h(layoutXml.height)}px;
+  	border:1px solid #999;
+  	overflow: hidden;
 }
 </style>
 <script type="text/javascript">
 
-var sum = ${fn:length(layout.components)};
+var sum = ${fn:length(layoutXml.components)};
 
 $(function(){
 	$(".component").resizable().draggable();
-//	addComponentCtrl();
+	initialize();
 });
 
+function initialize() {
+	$("#width").change(changeSizeListener);
+	$("#height").change(changeSizeListener);
+}
+
+function changeSizeListener() {
+	editPanel = $("#edit-panel");
+	editPanel.css("width", $("#width").val() + "px");
+	editPanel.css("height", $("#height").val() + "px");
+}
 
 // 設定ダイアログを表示する
 function openEditDialog(id) {
@@ -186,8 +198,7 @@ function requestNewComponent() {
 // 新規コンポーネントを配置する。
 function putNewComponent(cls, index, data) {
 	editPanel = $("#edit-panel");
-	editForm = $("#edit-form");
-	editForm.append($("<input/>")
+	editPanel.append($("<input/>")
 		.attr("type", "hidden")
 		.attr("name", index + "_ComponentClassName")
 		.val(cls)
@@ -199,7 +210,7 @@ function putNewComponent(cls, index, data) {
 		.attr("title", "コンポーネントの設定")
 		.html(data)
 		.hide();
-	editForm.append(dialog);
+	editPanel.append(dialog);
 	
 	var width = $("#" + index + "_width").val();
 	var height = $("#" + index + "_height").val();
@@ -209,8 +220,8 @@ function putNewComponent(cls, index, data) {
 	.attr("id", index + "_component")
 	.html(cls + "クラスのダミー")
 	.resizable().draggable()
-	.css("top", editPanel.height() / 2 + height / 2)
-	.css("left", editPanel.width() / 2 - width / 2)
+	.css("top", 0)
+	.css("left", 0)
 	.css("width", width)
 	.css("height", height);
 	
@@ -222,21 +233,28 @@ function putNewComponent(cls, index, data) {
 		
 	componentCtrl.append(ctrl);
 	component.append(componentCtrl);
-	editForm.append(component);
+	editPanel.append(component);
 }
 
 </script>
 </head>
 <body>
-	<div id="layout-ctrl">
-		<input type="button" value="戻る" onclick="back()" />
-<!-- 		<span id="layout-name-input" style="margin-left: 30px;">レイアウト名：<input type="text" size="60" /></span> -->
-		<input type="button" value="要素を追加" onclick="openAddComponentDialog();" />
-		<input type="button" value="保存" onclick="saveLayout();" />
-	</div>
-	<div id="edit-panel">
-		<form id="edit-form" action="/layout/save" method="post">
-			<c:forEach items="${layout.components}" var="component" varStatus="stat">
+	<form id="edit-form" action="/layout/save" method="post">
+		<div id="layout-ctrl">
+			<input type="button" value="戻る" onclick="back()" />
+			<input type="button" value="要素を追加" onclick="openAddComponentDialog();" />
+			<span id="layout-name-input" style="margin-left: 10px;">
+				レイアウト名：<input name="layoutName" type="text" size="40" value="${f:h(layoutXml.name)}" />
+			</span>
+			<span id="layout-size-input" style="margin-left: 10px;">
+				幅：<input id="width" name="width" type="text" size="10" value="${f:h(layoutXml.width)}" />
+				×
+				高さ：<input id="height" name="height" type="text" size="10" value="${f:h(layoutXml.height)}" />
+			</span>
+			<input type="button" value="保存" onclick="saveLayout();" style="margin-left: 10px;" />
+		</div>
+		<div id="edit-panel">
+			<c:forEach items="${layoutXml.components}" var="component" varStatus="stat">
 				<div class="component" id="${stat.index }_component" style="top:${component.y}px;left:${component.x}px;width:${component.width}px;height:${component.height}px;">
 					<div class="component_ctrl">
 						<input type="button" value="編集" onclick="openEditDialog('${component.class.simpleName}_${stat.index }')" />
@@ -394,7 +412,7 @@ function putNewComponent(cls, index, data) {
 					</tr>
 				</table>
 			</div>
-		</form>
-	</div>
+		</div>
+	</form>
 </body>
 </html>

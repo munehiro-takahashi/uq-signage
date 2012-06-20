@@ -25,9 +25,11 @@ public class Layout implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
+    
     /** ID */
     @Attribute(primaryKey = true)
     private Key id;
+    
     /** レイアウト情報 XML */
     @Attribute(lob = true)
     private String xml;
@@ -68,6 +70,7 @@ public class Layout implements Serializable {
     public void setId(Key id) {
         this.id = id;
     }
+
 
     /**
      * レイアウト情報 XMLを取得します。
