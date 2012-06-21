@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<h1>${f:h(title)}</h1>
+<title>uqSignage - ${f:h(title)}</title>
 <!--[if IE]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
@@ -39,6 +39,7 @@ function editLayout(lid) {
 </head>
 <body>
 <header>
+<h1>${f:h(title)}</h1>
 <t:navbar/>
 </header>
 <div class="clearfix">
@@ -50,12 +51,12 @@ function editLayout(lid) {
 			<table class="data">
 				<thead>
 					<tr>
-						<td>削除</td>
-						<td>編集</td>
-						<td>レイアウト名</td>
-						<td>代表者名</td>
-						<td>サイズ</td>
-						<td>更新日</td>
+						<th>削除</th>
+						<th>編集</th>
+						<th>レイアウト名</th>
+						<th>代表者名</th>
+						<th>サイズ</th>
+						<th>更新日</th>
 					</tr>
 				</thead>
 				<tbody>
