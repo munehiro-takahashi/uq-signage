@@ -4,13 +4,15 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="f" uri="http://www.slim3.org/functions"%>
 <%@taglib prefix="e" uri="http://uq.nskint.co.jp/pd/taglibs/uqSignage-editor"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE HTML>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Layout Editor</title>
+<title>uqSignage - ${f:h(title)}</title>
 <link rel="stylesheet" href="/css/html5reset.css" />
 <link rel="stylesheet" href="/css/custom-theme/jquery-ui.custom.css" />
+<link rel="stylesheet" href="/css/global.css" type="text/css" media="screen" charset="utf-8"/>
 <script type="text/javascript" src="/js/jquery.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
 <style>
@@ -37,28 +39,17 @@
 	border: solid 1px #000000;
 }
 #layout-ctrl {
-	background-color: #e6ebf1;
-	width:100%;
-	top: 0px;
-	padding: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	vertical-align: middle;
-  	border:1px solid #999;
-  	z-index: 1;
-/*
-	opacity: 0.2;
-	-webkit-transition: opacity 0.2s linear;
-	-moz-transition: 0.2s;
-*/
-}
-#layout-ctrl:hover {
-/*	opacity:1.0;*/
 }
 
 #edit-panel {
-	width: ${f:h(layoutXml.width)}px;
-	height: ${f:h(layoutXml.height)}px;
+	position:relative;
   	border:1px solid #999;
   	overflow: hidden;
+	width: ${f:h(layoutXml.width)}px;
+	height: ${f:h(layoutXml.height)}px;
 }
 </style>
 <script type="text/javascript">
@@ -66,7 +57,7 @@
 var sum = ${fn:length(layoutXml.components)};
 
 $(function(){
-	$(".component").resizable().draggable();
+	$(".component").resizable().draggable({"containment": "parent"});
 	initialize();
 });
 
@@ -82,11 +73,15 @@ function changeSizeListener() {
 }
 
 // 設定ダイアログを表示する
-function openEditDialog(id) {
+function openEditDialog(index, id) {
 	var dialogName = id + "_dialog";
 	$("#" + dialogName).dialog({
 		buttons: {
 			"登録" : function(event) {
+				$(this).dialog("close");
+			},
+			"削除" : function(event) {
+				deleteComponent( index, id )
 				$(this).dialog("close");
 			},
 			"キャンセル" : function(event) {
@@ -102,6 +97,17 @@ function openEditDialog(id) {
 			$(this).parent().appendTo("#edit-form");
 		}
 	});
+}
+
+function deleteComponent( index, id ) {
+	$( "#" + id).remove();
+	$( "#" + id + "_dialog").remove();
+	$( "#" + index + "_component").remove();
+	$( "#" + index + "_ComponentClassName").remove();
+	$( "#" + index + "_width").remove();
+	$( "#" + index + "_height").remove();
+	$( "#" + index + "_x").remove();
+	$( "#" + index + "_y").remove();
 }
 
 // レイアウトを表示する。
@@ -124,11 +130,11 @@ function getPixel(value) {
 	if(value == null || value == "") {
 		return 0;
 	}
-	
+
 	if(value.match(/^([0-9]+)px$/)) {
 		return toNumber(RegExp.$1);
 	}
-	
+
 	return 0;
 }
 
@@ -137,11 +143,11 @@ function toNumber(value) {
 	if(value == null || value == "") {
 		return 0;
 	}
-	
+
 	if(isNaN(value)) {
 		return 0;
 	}
-	
+
 	return parseInt(value);
 }
 
@@ -151,12 +157,12 @@ function getIndexFromAttr( attr ) {
 	if(attr == null || attr == "") {
 		return -1;
 	}
-	
+
 	// インデックスが取得できない場合
 	if(!attr.match("^([0-9]+)_.+")) {
 		return -1;
 	}
-	
+
 	return toNumber(RegExp.$1);
 }
 
@@ -181,7 +187,7 @@ function openAddComponentDialog() {
 		resizable: true,
 		modal: true,
 		closeText: ""
-	});	
+	});
 }
 
 // 新規コンポーネントをリクエストする。
@@ -189,7 +195,7 @@ function requestNewComponent() {
 	var index = $(this).val();
 	var cls = $("#addComp_class_" + index).val();
 	var url = $("#addComp_url_" + index).val();
-	
+
 	var index = sum++;
 	url += "?index=" + index;
 	$.get(url,function(data){ putNewComponent(cls, index, data) });
@@ -201,9 +207,10 @@ function putNewComponent(cls, index, data) {
 	editPanel.append($("<input/>")
 		.attr("type", "hidden")
 		.attr("name", index + "_ComponentClassName")
+		.attr("id", index + "_ComponentClassName")
 		.val(cls)
 	);
-	
+
 	dialog = $("<div/>")
 		.addClass("edit_dialog")
 		.attr("id", cls + "_" + index + "_dialog")
@@ -211,10 +218,10 @@ function putNewComponent(cls, index, data) {
 		.html(data)
 		.hide();
 	editPanel.append(dialog);
-	
+
 	var width = $("#" + index + "_width").val();
 	var height = $("#" + index + "_height").val();
-	
+
 	component = $("<div/>")
 	.addClass("component")
 	.attr("id", index + "_component")
@@ -224,13 +231,13 @@ function putNewComponent(cls, index, data) {
 	.css("left", 0)
 	.css("width", width)
 	.css("height", height);
-	
+
 	componentCtrl = $("<div/>").addClass("component_ctrl")
 	ctrl = $("<input/>")
 		.attr("type", "button")
 		.attr("value", "編集")
-		.click(function(){ openEditDialog(cls+"_" + index); });
-		
+		.click(function(){ openEditDialog(index, cls+"_" + index); });
+
 	componentCtrl.append(ctrl);
 	component.append(componentCtrl);
 	editPanel.append(component);
@@ -239,6 +246,13 @@ function putNewComponent(cls, index, data) {
 </script>
 </head>
 <body>
+<header>
+<h1>${f:h(title)}</h1>
+<t:navbar/>
+</header>
+<div class="clearfix">
+	<t:sidemenu/>
+	<div id="body_contents">
 	<form id="edit-form" action="/layout/save" method="post">
 		<div id="layout-ctrl">
 			<input type="button" value="戻る" onclick="back()" />
@@ -257,11 +271,11 @@ function putNewComponent(cls, index, data) {
 			<c:forEach items="${layoutXml.components}" var="component" varStatus="stat">
 				<div class="component" id="${stat.index }_component" style="top:${component.y}px;left:${component.x}px;width:${component.width}px;height:${component.height}px;">
 					<div class="component_ctrl">
-						<input type="button" value="編集" onclick="openEditDialog('${component.class.simpleName}_${stat.index }')" />
+						<input type="button" value="編集" onclick="openEditDialog(${stat.index }, '${component.class.simpleName}_${stat.index }')" />
 					</div>
 					${component.class.simpleName}クラスのダミー<br/>
 				</div>
-				<input type="hidden" name="${stat.index }_ComponentClassName" value="${component.class.simpleName}" />
+				<input type="hidden" name="${stat.index }_ComponentClassName" id="${stat.index }_ComponentClassName" value="${component.class.simpleName}" />
 				<div id="${component.class.simpleName}_${stat.index }_dialog"  class="edit_dialog" style="display:none;"
 					title="コンポーネントの設定">
 					<c:choose>
@@ -319,7 +333,7 @@ function putNewComponent(cls, index, data) {
 			<input type="hidden" name="lid" value="${lid }" />
 			<input type="hidden" name="mid" value="${mid }" />
 			<input type="hidden" id="sum" name="sum" value="" />
-			
+
 			<div id="addComponentDialog" style="display:none" title="コンポーネントの追加">
 				<table>
 					<tr>
@@ -414,5 +428,10 @@ function putNewComponent(cls, index, data) {
 			</div>
 		</div>
 	</form>
+	</div>
+</div>
+<footer>
+${e:copyright()}
+</footer>
 </body>
 </html>
