@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.slim3.controller.Navigation;
+import org.slim3.util.ApplicationMessage;
 import org.slim3.util.BeanUtil;
 import org.slim3.util.LongUtil;
 
@@ -31,10 +32,10 @@ import scenic3.annotation.RequestParam;
 public class LayoutPage extends BasePage {
     /** 初期レイアウト名 */
     private static final String DEFAULT_NAME = "名称未設定";
-  
+
     /** 初期幅 */
     private static final int DEFAULT_WIDTH = 1024;
-  
+
     /** 初期高さ */
     private static final int DEFAULT_HEIGHT = 768;
 
@@ -73,6 +74,9 @@ public class LayoutPage extends BasePage {
 
             request.setAttribute("layoutList", layoutList);
             request.setAttribute("manager", manager);
+            request.setAttribute(
+                "title",
+                ApplicationMessage.get("title.layout.list"));
 
             return forward("/layout/list.jsp");
         }
@@ -99,7 +103,7 @@ public class LayoutPage extends BasePage {
                 errors.put("page", "指定されたマネージャは存在しません。");
                 return forward("/error.jsp");
             }
-            
+
             Layout layout = null;
             LayoutXml layoutXml = null;
             // 新規登録の場合
@@ -127,6 +131,9 @@ public class LayoutPage extends BasePage {
             this.request.setAttribute("lid", lid);
             this.request.setAttribute("layout", layout);
             this.request.setAttribute("layoutXml", layoutXml);
+            request.setAttribute(
+                "title",
+                ApplicationMessage.get("title.layout.edit"));
 
             return forward("/layout/edit.jsp");
         }
