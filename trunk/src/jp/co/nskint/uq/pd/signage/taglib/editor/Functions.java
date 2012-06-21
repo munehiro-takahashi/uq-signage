@@ -134,10 +134,25 @@ public final class Functions {
 
     public static String url(String url) {
         HttpServletRequest request = RequestLocator.get();
-        return request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort() + request.getContextPath() + url;
-    }
+        StringBuffer buf = new StringBuffer();
+        int port = request.getLocalPort();
+        final String scheme = request.getScheme();
+        final String serverName = request.getServerName();
+        if (port < 0) {
+            port = 80; // Work around java.net.URL bug
+        }
+        buf.append(scheme);
+        buf.append("://");
+        buf.append(serverName);
+        if ((scheme.equals("http") && (port != 80)) || (scheme.equals("https") && (port != 443))) {
+            buf.append(':');
+            buf.append(port);
+        }
+        buf.append(request.getContextPath()).append(url);
+        return buf.toString();
 
-   private Functions() {
+    }
+    private Functions() {
 
     }
 }

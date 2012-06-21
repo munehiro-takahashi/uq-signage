@@ -111,9 +111,10 @@ function editTimeline(tlid) {
 							<td>
 								${timeline.xmlModel.name}
 							</td>
-							<%-- 代表者名 --%>
+							<%-- 表示URL --%>
 							<td>
-								${manager.name }
+								<c:url value='${e:url("/view/")}' var="viewUrl"><c:param name="tlid" value="${timeline.id.id}"/></c:url>
+								<a href="${viewUrl}">${viewUrl}</a>
 							</td>
 							<%-- 登録日 --%>
 							<td>
