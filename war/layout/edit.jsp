@@ -46,7 +46,7 @@
 
 #edit-panel {
 	position:relative;
-  	border:1px solid #999;
+  	border:1px solid #FF4500;
   	overflow: hidden;
 	width: ${f:h(layoutXml.width)}px;
 	height: ${f:h(layoutXml.height)}px;
@@ -431,6 +431,7 @@ function putNewComponent(cls, index, data) {
 	</form>
 	</div>
 </div>
+<br/>
 <footer>
 ${e:copyright()}
 </footer>
