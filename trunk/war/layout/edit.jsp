@@ -58,6 +58,7 @@ var sum = ${fn:length(layoutXml.components)};
 
 $(function(){
 	$(".component").resizable().draggable({"containment": "parent"});
+	$(".button").button();
 	initialize();
 });
 
@@ -255,8 +256,8 @@ function putNewComponent(cls, index, data) {
 	<div id="body_contents">
 	<form id="edit-form" action="/layout/save" method="post">
 		<div id="layout-ctrl">
-			<input type="button" value="戻る" onclick="back()" />
-			<input type="button" value="要素を追加" onclick="openAddComponentDialog();" />
+			<input class="button" type="button" value="戻る" onclick="back()" />
+			<input class="button" type="button" value="要素を追加" onclick="openAddComponentDialog();" />
 			<span id="layout-name-input" style="margin-left: 10px;">
 				レイアウト名：<input name="layoutName" type="text" size="40" value="${f:h(layoutXml.name)}" />
 			</span>
@@ -265,7 +266,7 @@ function putNewComponent(cls, index, data) {
 				×
 				高さ：<input id="height" name="height" type="text" size="10" value="${f:h(layoutXml.height)}" />
 			</span>
-			<input type="button" value="保存" onclick="saveLayout();" style="margin-left: 10px;" />
+			<input class="button" type="button" value="保存" onclick="saveLayout();" style="margin-left: 10px;" />
 		</div>
 		<div id="edit-panel">
 			<c:forEach items="${layoutXml.components}" var="component" varStatus="stat">
