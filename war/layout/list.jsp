@@ -12,11 +12,16 @@
 <!--[if IE]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<link rel="stylesheet" href="/css/html5reset.css" type="text/css" media="screen" charset="utf-8"/>
+<link rel="stylesheet" href="/css/html5reset.css" />
+<link rel="stylesheet" href="/css/custom-theme/jquery-ui.custom.css" />
 <link rel="stylesheet" href="/css/global.css" type="text/css" media="screen" charset="utf-8"/>
 <script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
 <script type="text/javascript">
 
+$(function(){
+	$(".button").button();
+});
 function onClickCheckBox() {
 	$("input[name=chk_lid]:checkbox:checked").length
 }
@@ -46,8 +51,8 @@ function editLayout(lid) {
 	<t:sidemenu/>
 	<div id="body_contents">
 		<form id="listForm" action="edit" method="post">
-     		<input type="button" id="add_button" value="追加" onclick="addLayout();" />
-     		<input type="button" id="del_button" value="削除" onclick="deleteLayout();" />
+     		<input class="button" type="button" id="add_button" value="追加" onclick="addLayout();" />
+     		<input class="button" type="button" id="del_button" value="削除" onclick="deleteLayout();" />
 			<table class="data">
 				<thead>
 					<tr>
@@ -67,7 +72,7 @@ function editLayout(lid) {
 							<input type="checkbox" name="lids" value="${f:h(layout.id.id) }" onclick="onClickCheckBox();" />
 						</td>
 						<td>
-							<input type="button" value="編集" onclick="editLayout( '${f:h(layout.id.id) }' );" />
+							<input class="button" type="button" value="編集" onclick="editLayout( '${f:h(layout.id.id) }' );" />
 						</td>
 						<td>${f:h(layout.xmlModel.name)}</td>
 						<td>${f:h(manager.name)}</td>
