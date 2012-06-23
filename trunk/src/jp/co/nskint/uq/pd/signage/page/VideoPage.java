@@ -120,7 +120,7 @@ public class VideoPage extends BasePage {
             request.setAttribute("loop", loop);
             request.setAttribute("width", width);
             request.setAttribute("height", height);
-            return forward("/components/video_edit.jsp");
+            return forward("/components/form/video.jsp");
         } finally {
             putExitingLog();
         }

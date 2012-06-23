@@ -13,8 +13,10 @@
 <link rel="stylesheet" href="/css/html5reset.css" />
 <link rel="stylesheet" href="/css/custom-theme/jquery-ui.custom.css" />
 <link rel="stylesheet" href="/css/global.css" type="text/css" media="screen" charset="utf-8"/>
+<link rel="stylesheet" href="/css/cleditor/jquery.cleditor.css" type="text/css" media="screen" charset="utf-8"/>
 <script type="text/javascript" src="/js/jquery.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/js/jquery.cleditor.js"></script>
 <style>
 .component {
 	border: solid 1px #000000;
@@ -284,19 +286,38 @@ function putNewComponent(cls, index, data) {
 							<c:import url="/text/form"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Html'}">
-							<c:import url="/html/form"/>
+							<c:import url="/html/form">
+								<c:param name="index"  value="${stat.index}"/>
+								<c:param name="width"  value="${component.width}"/>
+								<c:param name="height" value="${component.height}"/>
+								<c:param name="x"      value="${component.x}"/>
+								<c:param name="y"      value="${component.y}"/>
+								<c:param name="value"   value="${component.value}"/>
+							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Table'}">
 							<c:import url="/table/form"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Image'}">
-							<c:import url="/image/form"/>
+							<c:import url="/image/form">
+								<c:param name="index"  value="${stat.index}"/>
+								<c:param name="width"  value="${component.width}"/>
+								<c:param name="height" value="${component.height}"/>
+								<c:param name="x"      value="${component.x}"/>
+								<c:param name="y"      value="${component.y}"/>
+								<c:param name="type"     value="${component.type}"/>
+								<c:param name="user"     value="${component.user}"/>
+								<c:param name="album"    value="${component.album}"/>
+								<c:param name="effect"   value="${component.effect}"/>
+								<c:param name="interval" value="${component.interval}"/>
+							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Audio'}">
 							<c:import url="/audio/form"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Video'}">
 							<c:import url="/video/form">
+								<c:param name="index"  value="${stat.index}"/>
 								<c:param name="url"    value="${component.url}"/>
 								<c:param name="width"  value="${component.width}"/>
 								<c:param name="height" value="${component.height}"/>
@@ -317,6 +338,21 @@ function putNewComponent(cls, index, data) {
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Marquee'}">
 							<c:import url="/marquee/form">
+								<c:param name="index"  value="${stat.index}"/>
+								<c:param name="width"  value="${component.width}"/>
+								<c:param name="height" value="${component.height}"/>
+								<c:param name="x"      value="${component.x}"/>
+								<c:param name="y"      value="${component.y}"/>
+								<c:param name="content"     value="${component.value}"/>
+								<c:param name="fontFamily"  value="${component.fontFamily}"/>
+								<c:param name="fontSize"    value="${component.fontSize}"/>
+								<c:param name="fontColor"   value="${component.fontColor}"/>
+								<c:param name="fontStyle"   value="${component.fontStyle}"/>
+								<c:param name="bounce"      value="${component.bounce}"/>
+								<c:param name="repeat"      value="${component.repeat}"/>
+								<c:param name="direction"   value="${component.direction}"/>
+								<c:param name="orientation" value="${component.orientation}"/>
+								<c:param name="speed"       value="${component.speed}"/>
 							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'BarGraph'}">

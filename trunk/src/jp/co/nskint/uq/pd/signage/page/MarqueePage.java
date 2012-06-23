@@ -59,7 +59,7 @@ public class MarqueePage extends BasePage {
     @ActionPath("form")
     public Navigation form(
             @RequestParam("index") String index,
-            @RequestParam("content") String content,
+            @RequestParam("value") String value,
             @RequestParam("fontFamily") String fontFamily,
             @RequestParam("fontSize") int fontSize,
             @RequestParam("fontColor") String fontColor,
@@ -77,7 +77,7 @@ public class MarqueePage extends BasePage {
         try {
             index = getOrElse(index, "defaultIndex");
             request.setAttribute("index", index);
-            request.setAttribute("content", getOrElse(content, ""));
+            request.setAttribute("value", getOrElse(value, ""));
             request.setAttribute("fontFamily", getOrElse(fontFamily, "MS PGothic"));
             request.setAttribute("fontSize", getOrElse(fontSize, 10));
             request.setAttribute("fontColor", getOrElse(fontColor, "#000000"));

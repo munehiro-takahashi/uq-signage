@@ -32,7 +32,12 @@ setTimeout(reload, ${reloadTime});
     <c:import url="${e:url('/text/')}"/>
    </c:when>
    <c:when test="${component.class.simpleName == 'Html'}">
-    <c:import url="${e:url('/html/')}"/>
+    <c:import url="${e:url('/html/')}">
+     <c:param name="id" value="${component.id}"/>
+     <c:param name="width" value="${component.width}"/>
+     <c:param name="height" value="${component.height}"/>
+     <c:param name="value" value="${component.value}"/>
+    </c:import>
    </c:when>
    <c:when test="${component.class.simpleName == 'Table'}">
     <c:import url="${e:url('/table/')}"/>
