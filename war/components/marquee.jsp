@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	var canvas = document.getElementById("${id}");
 	var ctx = canvas.getContext("2d");
-	var text = {content:"${content}",
+	var text = {content:"${value}",
 			direction:"${writtenDirection}",
 			isVertical: function() { return this.direction.toLowerCase() === "vertical" }};
 	var font = {family:"'${fontFamily}'", color:"${fontColor}", size:${fontSize}, style:"${fontStyle}"};

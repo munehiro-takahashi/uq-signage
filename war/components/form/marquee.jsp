@@ -4,7 +4,7 @@
 <table>
 	<tr>
 		<td>表示内容</td>
-		<td><input type="text" name="${index}_content" value="${content}" /></td>
+		<td><input type="text" name="${index}_value" value="${value}" /></td>
 	</tr>
 	<tr>
 		<td>フォント</td>
@@ -75,6 +75,7 @@
 		<td>スピード</td>
 		<td><input type="text" name="${index}_speed" value="${speed}" /></td>
 	</tr>
+	<%--
 	<tr>
 		<td>幅</td>
 		<td><input type="text" name="${index}_width" value="${width}" /></td>
@@ -83,4 +84,5 @@
 		<td>高さ</td>
 		<td><input type="text" name="${index}_height" value="${height}" /></td>
 	</tr>
+	--%>
 </table>

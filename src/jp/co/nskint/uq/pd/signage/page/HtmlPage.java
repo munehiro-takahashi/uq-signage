@@ -8,12 +8,12 @@ import scenic3.annotation.Page;
 import scenic3.annotation.RequestParam;
 
 /**
- * 静止画スライドショー
+ * HTML
  * @author NAGASAWA Takahiro
  *
  */
-@Page("/image")
-public class ImagePage extends BasePage {
+@Page("/html")
+public class HtmlPage extends BasePage {
 
     @Default
     public Navigation index(
@@ -21,7 +21,7 @@ public class ImagePage extends BasePage {
 
         putEnteringLog();
         try {
-            return forward("/components/image.jsp");
+            return forward("/components/html.jsp");
         } finally {
             putExitingLog();
         }
@@ -45,24 +45,16 @@ public class ImagePage extends BasePage {
     @ActionPath("form")
     public Navigation coordinator(
             @RequestParam("id") String id,
-            @RequestParam("type") String type,
-            @RequestParam("effect") String effect,
-            @RequestParam("interval") Integer interval,
-            @RequestParam("user") String user,
-            @RequestParam("album") String album,
+            @RequestParam("value") String value,
             @RequestParam("width") int width,
             @RequestParam("height") int height) {
         putEnteringLog();
         try {
             request.setAttribute("id", id);
-            request.setAttribute("effect", effect);
-            request.setAttribute("type", type);
-            request.setAttribute("interval", interval);
-            request.setAttribute("user", user);
-            request.setAttribute("album", album);
+            request.setAttribute("value", value);
             request.setAttribute("width", width);
             request.setAttribute("height", height);
-            return forward("/components/form/image.jsp");
+            return forward("/components/form/html.jsp");
         } finally {
             putExitingLog();
         }
