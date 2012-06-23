@@ -190,7 +190,7 @@
 	</simpleType>
 	<simpleType name="EffectType">
 		<restriction base="string">
-			<enumeration value="nomal"/>
+			<enumeration value="normal"/>
 			<enumeration value="circle"/>
 			<enumeration value="fade"/>
 		</restriction>
