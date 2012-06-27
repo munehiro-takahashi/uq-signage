@@ -29,7 +29,7 @@ public class MarqueePage extends BasePage {
     		@RequestParam("bounce") boolean bounce,
             @RequestParam("repeat") int repeat,
             @RequestParam("direction") String direction,
-            @RequestParam("writtenDirection") String writtenDirection,
+            @RequestParam("orientation") String orientation,
             @RequestParam("speed") int speed,
             @RequestParam("width") int width,
             @RequestParam("height") int height
@@ -46,7 +46,7 @@ public class MarqueePage extends BasePage {
             request.setAttribute("bounce", bounce);
             request.setAttribute("repeat", repeat);
             request.setAttribute("direction", getOrElse(direction, DirectionType.RIGHT.value()));
-            request.setAttribute("writtenDirection", getOrElse(writtenDirection, OrientationType.HORIZONTAL.value()));
+            request.setAttribute("orientation", getOrElse(orientation, OrientationType.HORIZONTAL.value()));
             request.setAttribute("speed", getOrElse(speed, 10));
             request.setAttribute("width", getOrElse(width, 200));
             request.setAttribute("height", getOrElse(height, 200));
@@ -67,7 +67,7 @@ public class MarqueePage extends BasePage {
             @RequestParam("bounce") boolean bounce,
             @RequestParam("repeat") int repeat,
             @RequestParam("direction") String direction,
-            @RequestParam("writtenDirection") String writtenDirection,
+            @RequestParam("orientation") String orientation,
             @RequestParam("speed") int speed,
             @RequestParam("width") int width,
             @RequestParam("height") int height
@@ -85,7 +85,7 @@ public class MarqueePage extends BasePage {
             request.setAttribute("bounce", true);
             request.setAttribute("repeat", getOrElse(repeat, 0));
             request.setAttribute("direction", getOrElse(direction, DirectionType.RIGHT.value()));
-            request.setAttribute("writtenDirection", getOrElse(writtenDirection, OrientationType.HORIZONTAL.value()));
+            request.setAttribute("orientation", getOrElse(orientation, OrientationType.HORIZONTAL.value()));
             request.setAttribute("speed", getOrElse(speed, 10));
             request.setAttribute("width", getOrElse(width, 200));
             request.setAttribute("height", getOrElse(height, 200));

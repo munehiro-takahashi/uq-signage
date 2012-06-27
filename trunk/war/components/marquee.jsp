@@ -9,7 +9,7 @@
 	var canvas = document.getElementById("${id}");
 	var ctx = canvas.getContext("2d");
 	var text = {content:"${value}",
-			direction:"${writtenDirection}",
+			direction:"${orientation}",
 			isVertical: function() { return this.direction.toLowerCase() === "vertical" }};
 	var font = {family:"'${fontFamily}'", color:"${fontColor}", size:${fontSize}, style:"${fontStyle}"};
 	var marqueeflow = {repeat:${repeat}, direction:"${direction}".toLowerCase(), bounce:${bounce}};
