@@ -11,7 +11,7 @@
 </c:choose>
 <c:choose>
 	<c:when test="${empty param.width }">
-		<c:set var="width" value="600" />
+		<c:set var="width" value="300" />
 	</c:when>
 	<c:otherwise>
 		<c:set var="width" value="${param.width }"/>
@@ -19,7 +19,7 @@
 </c:choose>
 <c:choose>
 	<c:when test="${empty param.height }">
-		<c:set var="height" value="400" />
+		<c:set var="height" value="200" />
 	</c:when>
 	<c:otherwise>
 		<c:set var="height" value="${param.height }"/>
