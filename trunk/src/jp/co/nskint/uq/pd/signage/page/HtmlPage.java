@@ -50,10 +50,6 @@ public class HtmlPage extends BasePage {
             @RequestParam("height") int height) {
         putEnteringLog();
         try {
-            request.setAttribute("id", id);
-            request.setAttribute("value", value);
-            request.setAttribute("width", width);
-            request.setAttribute("height", height);
             return forward("/components/form/html.jsp");
         } finally {
             putExitingLog();

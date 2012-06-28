@@ -4,8 +4,8 @@
 	<tr>
 		<td><label>種類</label></td>
 		<td><select name="${param.index}_type">
-				<option value="picasa_album"
-					<c:if test="${'picasa_album' == param.type}">selected</c:if>>picasa</option>
+				<option value="PICASA_ALBUM"
+					<c:if test="${'PICASA_ALBUM' == param.type}">selected</c:if>>picasa</option>
 		</select></td>
 	</tr>
 	<tr>
@@ -38,3 +38,7 @@
 			value="${param.interval}" /></td>
 	</tr>
 </table>
+<input type="hidden" id="${param.index}_width"  name="${param.index}_width"  value="<c:out value="${param.width}" />" />
+<input type="hidden" id="${param.index}_height" name="${param.index}_height" value="<c:out value="${param.height}" />" />
+<input type="hidden" id="${param.index }_x"     name="${param.index }_x"     value="<c:out value="${param.x }" />" />
+<input type="hidden" id="${param.index }_y"     name="${param.index }_y"     value="<c:out value="${param.y }" />" />

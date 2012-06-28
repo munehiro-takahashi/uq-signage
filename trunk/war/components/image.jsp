@@ -42,13 +42,13 @@
 		return objResults;
 	}
 
-	function showSlide_${id}(res) {
+	function showSlide_${param.id}(res) {
 		for (var i = 0, j = res.feed.entry.length; i < j; i ++) {
 			var url = res.feed.entry[i].media$group.media$content[0].url;
 			objImages[i] = new Image();
 			objImages[i].src = url;
 		}
-		objCanvasSlide = document.getElementById("${id}");
+		objCanvasSlide = document.getElementById("${param.id}");
 		objContext = objCanvasSlide.getContext("2d");
 	<c:choose>
 		<c:when test="${param.effect eq 'FADE'}">
@@ -178,4 +178,4 @@
 	</c:choose>
 	}
 </script>
-<script src="http://picasaweb.google.com/data/feed/api/user/${param.user}/album/${param.album}?kind=photo&alt=json-in-script&callback=showSlide_${id}&start-index=1&max-results=20"></script>
+<script src="http://picasaweb.google.com/data/feed/api/user/${param.user}/album/${param.album}?kind=photo&alt=json-in-script&callback=showSlide_${param.id}&start-index=1&max-results=20"></script>

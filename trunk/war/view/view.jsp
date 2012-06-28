@@ -29,10 +29,10 @@ setTimeout(reload, ${reloadTime});
  <div style="position:absolute;top:${component.y}px;left:${component.x}px;width:${component.width}px;height:${component.height}px;">
   <c:choose>
    <c:when test="${component.class.simpleName == 'Text'}">
-    <c:import url="${e:url('/text/')}"/>
+    <c:import url="/components/text.jsp"/>
    </c:when>
    <c:when test="${component.class.simpleName == 'Html'}">
-    <c:import url="${e:url('/html/')}">
+    <c:import url="'/components/html.jsp">
      <c:param name="id" value="${component.id}"/>
      <c:param name="width" value="${component.width}"/>
      <c:param name="height" value="${component.height}"/>
@@ -40,10 +40,10 @@ setTimeout(reload, ${reloadTime});
     </c:import>
    </c:when>
    <c:when test="${component.class.simpleName == 'Table'}">
-    <c:import url="${e:url('/table/')}"/>
+    <c:import url="/components/table.jsp"/>
    </c:when>
    <c:when test="${component.class.simpleName == 'Image'}">
-    <c:import url="${e:url('/image/')}" >
+    <c:import url="/components/image.jsp" >
      <c:param name="id" value="${component.id}"/>
      <c:param name="width" value="${component.width}"/>
      <c:param name="height" value="${component.height}"/>
@@ -55,10 +55,10 @@ setTimeout(reload, ${reloadTime});
     </c:import>
    </c:when>
    <c:when test="${component.class.simpleName == 'Audio'}">
-    <c:import url="${e:url('/audio/')}"/>
+    <c:import url="/components/audio.jsp"/>
    </c:when>
    <c:when test="${component.class.simpleName == 'Video'}">
-    <c:import url="${e:url('/video/')}">
+    <c:import url="/components/video.jsp">
      <c:param name="id" value="${component.id}"/>
      <c:param name="url" value="${component.url}"/>
      <c:param name="width" value="${component.width}"/>
@@ -68,7 +68,7 @@ setTimeout(reload, ${reloadTime});
     </c:import>
    </c:when>
    <c:when test="${component.class.simpleName == 'StreamVideo'}">
-    <c:import url="${e:url('/stream/')}">
+    <c:import url="/components/stream_video.jsp">
      <c:param name="id" value="${component.id}"/>
      <c:param name="url" value="${component.url}"/>
      <c:param name="width" value="${component.width}"/>
@@ -77,7 +77,7 @@ setTimeout(reload, ${reloadTime});
     </c:import>
    </c:when>
    <c:when test="${component.class.simpleName == 'Marquee'}">
-    <c:import url="${e:url('/marquee/')}">
+    <c:import url="/components/marquee.jsp">
      <c:param name="id" value="${component.id}"/>
      <c:param name="content" value="${component.value}"/>
      <c:param name="fontFamily" value="${component.fontFamily}"/>
@@ -94,7 +94,7 @@ setTimeout(reload, ${reloadTime});
     </c:import>
    </c:when>
    <c:when test="${component.class.simpleName == 'BarGraph'}">
-    <c:import url="${e:url('/bar_graph/')}">
+    <c:import url="/components/bar_graph.jsp">
      <c:param name="id" value="${component.id}"/>
      <c:param name="data" value="${component.data}"/>
      <c:param name="data_caption" value="${component.dataCaption}"/>
@@ -110,10 +110,10 @@ setTimeout(reload, ${reloadTime});
     </c:import>
    </c:when>
    <c:when test="${component.class.simpleName == 'LineGraph'}">
-    <c:import url="${e:url('/line_graph/')}"/>
+    <c:import url="/components/line_graph.jsp"/>
    </c:when>
    <c:when test="${component.class.simpleName == 'PieGraph'}">
-    <c:import url="${e:url('/pie_graph/')}"/>
+    <c:import url="/components/pie_graph.jsp"/>
    </c:when>
   </c:choose>
  </div>
