@@ -343,7 +343,7 @@ function putNewComponent(cls, index, data) {
 								<c:param name="height" value="${component.height}"/>
 								<c:param name="x"      value="${component.x}"/>
 								<c:param name="y"      value="${component.y}"/>
-								<c:param name="content"     value="${component.value}"/>
+								<c:param name="value"     value="${component.value}"/>
 								<c:param name="fontFamily"  value="${component.fontFamily}"/>
 								<c:param name="fontSize"    value="${component.fontSize}"/>
 								<c:param name="fontColor"   value="${component.fontColor}"/>
