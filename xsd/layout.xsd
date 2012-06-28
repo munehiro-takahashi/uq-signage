@@ -1,150 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="http://uq.nskint.co.jp/uqSignage/layout"
-        xmlns:lo="http://uq.nskint.co.jp/uqSignage/layout"
-        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-        elementFormDefault="qualified" jaxb:version="2.0">
- 	<element name="layout">
- 		<annotation>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://uq.nskint.co.jp/uqSignage/layout"
+	xmlns:lo="http://uq.nskint.co.jp/uqSignage/layout" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	elementFormDefault="qualified" jaxb:version="2.0">
+	<element name="layout">
+		<annotation>
 			<appinfo>
 				<jaxb:class name="LayoutXml">
 				</jaxb:class>
 			</appinfo>
- 		</annotation>
+		</annotation>
 		<complexType>
-			<group ref="lo:components" minOccurs="0" maxOccurs="unbounded"/>
-			<attribute name="id" type="string" use="required"/>
-			<attribute name="name" type="string"/>
-			<attribute name="height" type="unsignedShort"/>
-			<attribute name="width" type="unsignedShort"/>
+			<group ref="lo:components" minOccurs="0" maxOccurs="unbounded" />
+			<attribute name="id" type="string" use="required" />
+			<attribute name="name" type="string" />
+			<attribute name="height" type="unsignedShort" />
+			<attribute name="width" type="unsignedShort" />
 		</complexType>
 	</element>
 	<attributeGroup name="attrs">
-		<attribute name="id" type="string" use="required"/>
-		<attribute name="x" type="unsignedShort"/>
-		<attribute name="y" type="unsignedShort"/>
-		<attribute name="height" type="unsignedShort"/>
-		<attribute name="width" type="unsignedShort"/>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="x" type="unsignedShort" />
+		<attribute name="y" type="unsignedShort" />
+		<attribute name="height" type="unsignedShort" />
+		<attribute name="width" type="unsignedShort" />
 	</attributeGroup>
 	<complexType name="ComponentType">
 		<simpleContent>
 			<extension base="string">
-				<attributeGroup ref="lo:attrs"/>
+				<attributeGroup ref="lo:attrs" />
 			</extension>
 		</simpleContent>
 	</complexType>
 	<element name="html">
 		<complexType>
 			<complexContent>
-				<extension base="lo:ComponentType"/>
+				<extension base="lo:ComponentType" />
 			</complexContent>
 		</complexType>
 	</element>
 	<element name="text">
 		<complexType>
 			<complexContent>
-				<extension base="lo:ComponentType"/>
+				<extension base="lo:ComponentType" />
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="marquee" >
+	<element name="marquee">
 		<complexType>
 			<complexContent>
 				<extension base="lo:ComponentType">
-					<attribute name="font_family" type="string"/>
-					<attribute name="font_size" type="int"/>
-					<attribute name="font_color" type="string"/>
-					<attribute name="font_style" type="string"/>
-					<attribute name="font_weight" type="string"/>
-					<attribute name="bounce" type="boolean"/>
-					<attribute name="repeat" type="int"/>
-					<attribute name="speed" type="int"/>
-					<attribute name="direction" type="lo:DirectionType"/>
-					<attribute name="orientation" type="lo:OrientationType"/>
+					<attribute name="font_family" type="string" />
+					<attribute name="font_size" type="int" />
+					<attribute name="font_color" type="string" />
+					<attribute name="font_style" type="string" />
+					<attribute name="font_weight" type="string" />
+					<attribute name="bounce" type="boolean" />
+					<attribute name="repeat" type="int" />
+					<attribute name="speed" type="int" />
+					<attribute name="direction" type="lo:DirectionType" />
+					<attribute name="orientation" type="lo:OrientationType" />
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="video" >
+	<element name="video">
 		<complexType>
 			<complexContent>
 				<extension base="lo:ComponentType">
-					<attribute name="url" type="anyURI" use="required"/>
-					<attribute name="loop" type="boolean" use="required"/>
-					<attribute name="type" type="lo:VideoType"/>
+					<attribute name="url" type="anyURI" use="required" />
+					<attribute name="loop" type="boolean" use="required" />
+					<attribute name="type" type="lo:VideoType" />
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="audio" >
+	<element name="audio">
 		<complexType>
 			<complexContent>
 				<extension base="lo:ComponentType">
-					<attribute name="url" type="anyURI" use="required"/>
-					<attribute name="loop" type="boolean" use="required"/>
-					<attribute name="type" type="lo:VideoType"/>
+					<attribute name="url" type="anyURI" use="required" />
+					<attribute name="loop" type="boolean" use="required" />
+					<attribute name="type" type="lo:VideoType" />
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="stream_video" >
+	<element name="stream_video">
 		<complexType>
 			<complexContent>
 				<extension base="lo:ComponentType">
-			<attribute name="url" type="anyURI" use="required"/>
-			<attribute name="type" type="lo:StreamVideoType"/>
+					<attribute name="url" type="anyURI" use="required" />
+					<attribute name="type" type="lo:StreamVideoType" />
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="pie_graph" >
+	<element name="pie_graph">
 		<complexType>
 			<complexContent>
 				<extension base="lo:ComponentType">
-					<attribute name="data" type="string" use="required"/>
-					<attribute name="data_caption" type="string" use="required"/>
-					<attribute name="legend_position" type="lo:DirectionType"/>
+					<attribute name="data" type="string" use="required" />
+					<attribute name="data_caption" type="string" use="required" />
+					<attribute name="legend_position" type="lo:DirectionType" />
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="bar_graph" >
+	<element name="bar_graph">
 		<complexType>
 			<complexContent>
 				<extension base="lo:ComponentType">
-					<attribute name="url" type="anyURI"/>
-					<attribute name="data" type="string"/>
-					<attribute name="data_caption" type="string" use="required"/>
-					<attribute name="scale_caption" type="string" use="required"/>
-					<attribute name="scale_max" type="int"/>
+					<attribute name="url" type="anyURI" />
+					<attribute name="data" type="string" />
+					<attribute name="data_caption" type="string" use="required" />
+					<attribute name="scale_caption" type="string" use="required" />
+					<attribute name="scale_max" type="int" />
 					<attribute name="scale_min" type="int" />
-					<attribute name="scale_step" type="int" default="1"/>
-					<attribute name="orientation" type="lo:OrientationType" default="vertical"/>
-					<attribute name="bar_width" type="int"/>
-					<attribute name="bar_margin" type="int"/>
+					<attribute name="scale_step" type="int" default="1" />
+					<attribute name="orientation" type="lo:OrientationType"
+						default="vertical" />
+					<attribute name="bar_width" type="int" />
+					<attribute name="bar_margin" type="int" />
 				</extension>
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="line_graph" >
+	<element name="line_graph">
 		<complexType>
 			<complexContent>
-				<extension base="lo:ComponentType"/>
+				<extension base="lo:ComponentType" />
 			</complexContent>
 		</complexType>
 	</element>
-	<element name="image" >
+	<element name="image">
 		<complexType>
 			<complexContent>
 				<extension base="lo:ComponentType">
-					<attribute name="type" type="lo:ImageType" default="picasa_album"/>
-					<attribute name="effect" type="lo:EffectType" default="nomal"/>
-					<attribute name="interval" type="int" default="30"/>
-					<attribute name="user" type="string"/>
-					<attribute name="user_id" type="string"/>
-					<attribute name="album" type="string"/>
-					<attribute name="album_id" type="string"/>
-					<attribute name="url" type="anyURI"/>
+					<attribute name="type" type="lo:ImageType" default="picasa_album" />
+					<attribute name="effect" type="lo:EffectType" default="nomal" />
+					<attribute name="interval" type="int" default="30" />
+					<attribute name="user" type="string" />
+					<attribute name="user_id" type="string" />
+					<attribute name="album" type="string" />
+					<attribute name="album_id" type="string" />
+					<attribute name="url" type="anyURI" />
 				</extension>
 			</complexContent>
 		</complexType>
@@ -152,40 +151,40 @@
 	<element name="table">
 		<complexType>
 			<complexContent>
-				<extension base="lo:ComponentType"/>
+				<extension base="lo:ComponentType" />
 			</complexContent>
 		</complexType>
 	</element>
 	<group name="components">
 		<choice>
-			<element ref="lo:html"/>
-			<element ref="lo:text"/>
-			<element ref="lo:marquee"/>
-			<element ref="lo:table"/>
-			<element ref="lo:pie_graph"/>
-			<element ref="lo:bar_graph"/>
-			<element ref="lo:line_graph"/>
-			<element ref="lo:image"/>
-			<element ref="lo:audio"/>
-			<element ref="lo:video"/>
-			<element ref="lo:stream_video"/>
+			<element ref="lo:html" />
+			<element ref="lo:text" />
+			<element ref="lo:marquee" />
+			<element ref="lo:table" />
+			<element ref="lo:pie_graph" />
+			<element ref="lo:bar_graph" />
+			<element ref="lo:line_graph" />
+			<element ref="lo:image" />
+			<element ref="lo:audio" />
+			<element ref="lo:video" />
+			<element ref="lo:stream_video" />
 		</choice>
 	</group>
 	<simpleType name="StreamVideoType">
 		<restriction base="string">
-			<enumeration value="ust"/>
+			<enumeration value="ust" />
 		</restriction>
 	</simpleType>
 	<simpleType name="VideoType">
 		<restriction base="string">
-			<enumeration value="html5"/>
-			<enumeration value="youtube"/>
+			<enumeration value="html5" />
+			<enumeration value="youtube" />
 		</restriction>
 	</simpleType>
 	<simpleType name="ImageType">
 		<restriction base="string">
-			<enumeration value="picasa_album"/>
-			<enumeration value="url"/>
+			<enumeration value="picasa_album" />
+			<enumeration value="url" />
 		</restriction>
 	</simpleType>
 	<simpleType name="EffectType">
@@ -197,16 +196,16 @@
 	</simpleType>
 	<simpleType name="DirectionType">
 		<restriction base="string">
-			<enumeration value="up"/>
-			<enumeration value="down"/>
-			<enumeration value="left"/>
-			<enumeration value="right"/>
+			<enumeration value="up" />
+			<enumeration value="down" />
+			<enumeration value="left" />
+			<enumeration value="right" />
 		</restriction>
 	</simpleType>
 	<simpleType name="OrientationType">
 		<restriction base="string">
-			<enumeration value="horizontal"/>
-			<enumeration value="vertical"/>
+			<enumeration value="horizontal" />
+			<enumeration value="vertical" />
 		</restriction>
 	</simpleType>
 </schema>

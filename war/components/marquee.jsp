@@ -4,18 +4,18 @@
 <%@taglib prefix="f" uri="http://www.slim3.org/functions"%>
 <%@taglib prefix="v" uri="http://uq.nskint.co.jp/pd/taglibs/uqSignage-viewer"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<canvas id="${id}" width="${width}" height="${height}"></canvas>
+<canvas id="${param.id}" width="${param.width}" height="${param.height}"></canvas>
 <script type="text/javascript">
-	var canvas = document.getElementById("${id}");
+	var canvas = document.getElementById("${param.id}");
 	var ctx = canvas.getContext("2d");
-	var text = {content:"${value}",
-			direction:"${orientation}",
+	var text = {content:"${param.value}",
+			direction:"${param.orientation}",
 			isVertical: function() { return this.direction.toLowerCase() === "vertical" }};
-	var font = {family:"'${fontFamily}'", color:"${fontColor}", size:${fontSize}, style:"${fontStyle}"};
-	var marqueeflow = {repeat:${repeat}, direction:"${direction}".toLowerCase(), bounce:${bounce}};
+	var font = {family:"'${param.fontFamily}'", color:"${param.fontColor}", size:${param.fontSize}, style:"${param.fontStyle}"};
+	var marqueeflow = {repeat:${param.repeat}, direction:"${param.direction}".toLowerCase(), bounce:${param.bounce}};
 	var x = 0;
 	var y = 0;
-	var speed = ${speed};
+	var speed = ${param.speed};
 	var fontstyle = font.style + " " + font.size + "px '" + font.family + "'";
 	var fillcolor = 'rgb(255, 255, 255)';
 	var counter = 0;

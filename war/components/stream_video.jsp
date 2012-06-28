@@ -5,9 +5,9 @@
 <%@taglib prefix="v" uri="http://uq.nskint.co.jp/pd/taglibs/uqSignage-viewer"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <c:choose>
- <c:when test="${type == 'UST'}">
-  <iframe src="${url}?autoplay=true"
-          width="${width}" height="${v:ust_widthToHeight(width)}"
+ <c:when test="${param.type == 'UST'}">
+  <iframe src="${param.url}?autoplay=true"
+          width="${param.width}" height="${v:ust_widthToHeight(param.width)}"
           scrolling="no" frameborder="0"
           style="border: 0px none transparent;"></iframe>
  </c:when>

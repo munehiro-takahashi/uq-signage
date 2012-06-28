@@ -91,7 +91,7 @@ function editTimeline(tlid) {
 						<th>削除</th>
 						<th>編集</th>
 						<th>タイムライン名</th>
-						<th>代表者名</th>
+						<th>URL</th>
 						<th>登録日</th>
 						<th>更新日</th>
 					</tr>
@@ -113,8 +113,8 @@ function editTimeline(tlid) {
 							</td>
 							<%-- 表示URL --%>
 							<td>
-								<c:url value='${e:url("/view/")}' var="viewUrl"><c:param name="tlid" value="${timeline.id.id}"/></c:url>
-								<a href="${viewUrl}">${viewUrl}</a>
+								<c:url value='${e:url("/view/")}${timeline.id.id}' var="viewUrl"></c:url>
+								<a href="${viewUrl}" target="view">${viewUrl}</a>
 							</td>
 							<%-- 登録日 --%>
 							<td>

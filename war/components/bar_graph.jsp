@@ -4,13 +4,13 @@
 <%@taglib prefix="f" uri="http://www.slim3.org/functions"%>
 <%@taglib prefix="v" uri="http://uq.nskint.co.jp/pd/taglibs/uqSignage-viewer"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<canvas id="${id}" width="${width}" height="${height}"></canvas>
+<canvas id="${param.id}" width="${param.width}" height="${param.height}"></canvas>
 <script language="javascript" type="text/javascript">
-  var canvas = document.getElementById('${id}');
+  var canvas = document.getElementById('${param.id}');
   var context = canvas.getContext('2d');
-  var data = JSON.parse('${data}');
-  var data_caption = "${data_caption}";
-  var scale_caption = "${scale_caption}";
+  var data = JSON.parse('${param.data}');
+  var data_caption = "${param.data_caption}";
+  var scale_caption = "${param.scale_caption}";
   var max = 0;
   for (var i = 0; i < data.length; i ++) {
     if (data[i].value > max) {
@@ -22,10 +22,10 @@
     return Math.ceil(value / step) * step;
   }
 
-  var scale_min = ${scale_min} <= 0 ? 0 : ${scale_min};
-  var scale_step = ${scale_step} <= 0 ? round(max - scale_min, 10) / 5 : ${scale_step};
-  var scale_max = ${scale_max} <= 0 ? round(max - scale_min, scale_step) : ${scale_max};
-  var orientation = "${orientation}".toLowerCase();
+  var scale_min = ${param.scale_min} <= 0 ? 0 : ${param.scale_min};
+  var scale_step = ${param.scale_step} <= 0 ? round(max - scale_min, 10) / 5 : ${param.scale_step};
+  var scale_max = ${param.scale_max} <= 0 ? round(max - scale_min, scale_step) : ${param.scale_max};
+  var orientation = "${param.orientation}".toLowerCase();
   var h_margin = Math.max(40, canvas.height / 10);
   var w_margin = Math.max(40, canvas.width / 10);
   var graph_height = canvas.height - h_margin;
@@ -33,8 +33,8 @@
 
   if (orientation == "vertical") {
     var bar = graph_width / data.length;
-    var bar_width = ${bar_width} <= 0 ? bar * (3/4) : ${bar_width};
-    var bar_margin = ${bar_margin} <= 0 ? bar * (1/4) : ${bar_margin};
+    var bar_width = ${param.bar_width} <= 0 ? bar * (3/4) : ${param.bar_width};
+    var bar_margin = ${param.bar_margin} <= 0 ? bar * (1/4) : ${param.bar_margin};
     var mag = graph_height / (scale_max);
     context.moveTo(w_margin, graph_height);
     context.lineTo(canvas.width, graph_height);
@@ -81,8 +81,8 @@
     }
   } else {
     var bar = graph_height / data.length;
-    var bar_width = ${bar_width} <= 0 ? bar * (3/4) : ${bar_width};
-    var bar_margin = ${bar_margin} <= 0 ? bar * (1/4) : ${bar_margin};
+    var bar_width = ${param.bar_width} <= 0 ? bar * (3/4) : ${param.bar_width};
+    var bar_margin = ${param.bar_margin} <= 0 ? bar * (1/4) : ${param.bar_margin};
     var mag = graph_width / (scale_max);
     context.moveTo(w_margin, h_margin);
     context.lineTo(canvas.width, h_margin);
