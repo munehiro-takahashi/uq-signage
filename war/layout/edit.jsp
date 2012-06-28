@@ -16,7 +16,13 @@
 <link rel="stylesheet" href="/css/cleditor/jquery.cleditor.css" type="text/css" media="screen" charset="utf-8"/>
 <script type="text/javascript" src="/js/jquery.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
-<script type="text/javascript" src="/js/jquery.cleditor.js"></script>
+<script type="text/javascript" src="/js/markitup/jquery.markitup.js"></script>
+<!-- markItUp! toolbar settings -->
+<script type="text/javascript" src="/js/markitup/sets/default/set.js"></script>
+<!-- markItUp! skin -->
+<link rel="stylesheet" type="text/css" href="/js/markitup/skins/markitup/style.css" />
+<!--  markItUp! toolbar skin -->
+<link rel="stylesheet" type="text/css" href="/js/markitup/sets/default/style.css" />
 <style>
 .component {
 	border: solid 1px #000000;
