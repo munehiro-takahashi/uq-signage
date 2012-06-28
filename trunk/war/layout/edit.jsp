@@ -286,7 +286,7 @@ function putNewComponent(cls, index, data) {
 							<c:import url="/components/form/text.jsp"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Html'}">
-							<c:import url="/html/form">
+							<c:import url="/components/form/html.jsp">
 								<c:param name="index"  value="${stat.index}"/>
 								<c:param name="width"  value="${component.width}"/>
 								<c:param name="height" value="${component.height}"/>

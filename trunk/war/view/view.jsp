@@ -25,7 +25,7 @@ setTimeout(reload, ${reloadTime});
 </script>
 </head>
 <body style="width:${layout.width}px;height:${layout.height}px;overflow:hidden;">
-<c:forEach items="${layout.components}" var="component">
+<c:forEach items="${layout.components}" var="component" varStatus="compStat">
  <div style="position:absolute;top:${component.y}px;left:${component.x}px;width:${component.width}px;height:${component.height}px;">
   <c:choose>
    <c:when test="${component.class.simpleName == 'Text'}">
@@ -33,7 +33,7 @@ setTimeout(reload, ${reloadTime});
    </c:when>
    <c:when test="${component.class.simpleName == 'Html'}">
     <c:import url="'/components/html.jsp">
-     <c:param name="id" value="${component.id}"/>
+     <c:param name="id" value="${compStat.index}"/>
      <c:param name="width" value="${component.width}"/>
      <c:param name="height" value="${component.height}"/>
      <c:param name="value" value="${component.value}"/>
@@ -44,7 +44,7 @@ setTimeout(reload, ${reloadTime});
    </c:when>
    <c:when test="${component.class.simpleName == 'Image'}">
     <c:import url="/components/image.jsp" >
-     <c:param name="id" value="${component.id}"/>
+     <c:param name="id" value="${compStat.index}"/>
      <c:param name="width" value="${component.width}"/>
      <c:param name="height" value="${component.height}"/>
      <c:param name="type" value="${component.type}"/>
@@ -59,7 +59,7 @@ setTimeout(reload, ${reloadTime});
    </c:when>
    <c:when test="${component.class.simpleName == 'Video'}">
     <c:import url="/components/video.jsp">
-     <c:param name="id" value="${component.id}"/>
+     <c:param name="id" value="${compStat.index}"/>
      <c:param name="url" value="${component.url}"/>
      <c:param name="width" value="${component.width}"/>
      <c:param name="height" value="${component.height}"/>
@@ -69,7 +69,7 @@ setTimeout(reload, ${reloadTime});
    </c:when>
    <c:when test="${component.class.simpleName == 'StreamVideo'}">
     <c:import url="/components/stream_video.jsp">
-     <c:param name="id" value="${component.id}"/>
+     <c:param name="id" value="${compStat.index}"/>
      <c:param name="url" value="${component.url}"/>
      <c:param name="width" value="${component.width}"/>
      <c:param name="height" value="${component.height}"/>
@@ -78,7 +78,7 @@ setTimeout(reload, ${reloadTime});
    </c:when>
    <c:when test="${component.class.simpleName == 'Marquee'}">
     <c:import url="/components/marquee.jsp">
-     <c:param name="id" value="${component.id}"/>
+     <c:param name="id" value="${compStat.index}"/>
      <c:param name="content" value="${component.value}"/>
      <c:param name="fontFamily" value="${component.fontFamily}"/>
      <c:param name="fontSize" value="${component.fontSize}"/>
@@ -95,7 +95,7 @@ setTimeout(reload, ${reloadTime});
    </c:when>
    <c:when test="${component.class.simpleName == 'BarGraph'}">
     <c:import url="/components/bar_graph.jsp">
-     <c:param name="id" value="${component.id}"/>
+     <c:param name="id" value="${compStat.index}"/>
      <c:param name="data" value="${component.data}"/>
      <c:param name="data_caption" value="${component.dataCaption}"/>
      <c:param name="scale_caption" value="${component.scaleCaption}"/>
