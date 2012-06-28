@@ -7,6 +7,6 @@
 <input type="hidden" id="${param.index }_y"     name="${param.index }_y"     value="<c:out value="${param.y }" />" />
 <script type="text/javascript">
 $(function(){
-	$("#${param.index}_html").cleditor();
+	$("#${param.index}_html").markItUp(mySettings);
 })
 </script>
