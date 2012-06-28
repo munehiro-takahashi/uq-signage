@@ -283,7 +283,7 @@ function putNewComponent(cls, index, data) {
 					title="コンポーネントの設定">
 					<c:choose>
 						<c:when test="${component.class.simpleName == 'Text'}">
-							<c:import url="/text/form"/>
+							<c:import url="/components/form/text.jsp"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Html'}">
 							<c:import url="/html/form">
@@ -296,10 +296,10 @@ function putNewComponent(cls, index, data) {
 							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Table'}">
-							<c:import url="/table/form"/>
+							<c:import url="/components/form/table.jsp"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Image'}">
-							<c:import url="/image/form">
+							<c:import url="/components/form/image.jsp">
 								<c:param name="index"  value="${stat.index}"/>
 								<c:param name="width"  value="${component.width}"/>
 								<c:param name="height" value="${component.height}"/>
@@ -313,10 +313,10 @@ function putNewComponent(cls, index, data) {
 							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Audio'}">
-							<c:import url="/audio/form"/>
+							<c:import url="/components/form/audio.jsp"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Video'}">
-							<c:import url="/video/form">
+							<c:import url="/components/form/video.jsp">
 								<c:param name="index"  value="${stat.index}"/>
 								<c:param name="url"    value="${component.url}"/>
 								<c:param name="width"  value="${component.width}"/>
@@ -337,7 +337,7 @@ function putNewComponent(cls, index, data) {
 							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'Marquee'}">
-							<c:import url="/marquee/form">
+							<c:import url="/components/form/marquee.jsp">
 								<c:param name="index"  value="${stat.index}"/>
 								<c:param name="width"  value="${component.width}"/>
 								<c:param name="height" value="${component.height}"/>
@@ -356,13 +356,13 @@ function putNewComponent(cls, index, data) {
 							</c:import>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'BarGraph'}">
-							<c:import url="/bar_graph/form"/>
+							<c:import url="/components/form/bar_graph.jsp"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'LineGraph'}">
-							<c:import url="/line_graph/form"/>
+							<c:import url="/components/form/line_graph.jsp"/>
 						</c:when>
 						<c:when test="${component.class.simpleName == 'PieGraph'}">
-							<c:import url="/pie_graph/form"/>
+							<c:import url="/components/form/pie_graph.jsp"/>
 						</c:when>
 					</c:choose>
 				</div>
