@@ -44,56 +44,56 @@
 <table>
 	<tr>
 		<td>表示内容</td>
-		<td><input type="text" name="${index}_value" value="${value}" /></td>
+		<td><input type="text" name="${param.index}_value" value="${param.value}" /></td>
 	</tr>
 	<tr>
 		<td>フォント</td>
-		<td><input type="text" name="${index}_fontFamily" value="${fontFamily}" /></td>
+		<td><input type="text" name="${param.index}_fontFamily" value="${param.fontFamily}" /></td>
 	</tr>
 	<tr>
 		<td>フォントサイズ</td>
-		<td><input type="text" name="${index}_fontSize" value="${fontSize}" /></td>
+		<td><input type="text" name="${param.index}_fontSize" value="${param.fontSize}" /></td>
 	</tr>
 	<tr>
 		<td>フォントの色</td>
-		<td><input type="text" name="${index}_fontColor" value="${fontColor}" /></td>
+		<td><input type="text" name="${param.index}_fontColor" value="${param.fontColor}" /></td>
 	</tr>
 	<tr>
 		<td>フォントスタイル</td>
-		<td><input type="text" name="${index}_fontStyle" value="${fontStyle}" /></td>
+		<td><input type="text" name="${param.index}_fontStyle" value="${param.fontStyle}" /></td>
 	</tr>
 	<tr>
 		<td>画面端でのバウンド</td>
 		<td>
-			<select name="${index}_bounce">
+			<select name="${param.index}_bounce">
 				<option value="true"
-					<c:if test="${bounce=='true'}">selected="selected"</c:if>
+					<c:if test="${param.bounce=='true'}">selected="selected"</c:if>
 				>true</option>
 				<option value="false"
-					<c:if test="${bounce=='false'}">selected="selected"</c:if>
+					<c:if test="${param.bounce=='false'}">selected="selected"</c:if>
 				>false</option>
 			</select>
 		</td>
 	</tr>
 	<tr>
 		<td>繰り返し回数</td>
-		<td><input type="text" name="${index}_repeat" value="${repeat}" /></td>
+		<td><input type="text" name="${param.index}_repeat" value="${param.repeat}" /></td>
 	</tr>
 	<tr>
 		<td>テキストの流れる方向</td>
 		<td>
-			<select name="${index}_direction">
+			<select name="${param.index}_direction">
 				<option value="RIGHT"
-					<c:if test="${direction=='right'}">selected="selected"</c:if>
+					<c:if test="${param.direction=='right'}">selected="selected"</c:if>
 				>Right</option>
 				<option value="LEFT"
-					<c:if test="${direction=='left'}">selected="selected"</c:if>
+					<c:if test="${param.direction=='left'}">selected="selected"</c:if>
 				>Left</option>
 				<option value="UP"
-					<c:if test="${direction=='up'}">selected="selected"</c:if>
+					<c:if test="${param.direction=='up'}">selected="selected"</c:if>
 				>Top</option>
 				<option value="DOWN"
-					<c:if test="${direction=='down'}">selected="selected"</c:if>
+					<c:if test="${param.direction=='down'}">selected="selected"</c:if>
 				>Bottom</option>
 			</select>
 		</td>
@@ -101,22 +101,22 @@
 	<tr>
 		<td>テキストの書き方</td>
 		<td>
-			<select name="${index}_orientation">
+			<select name="${param.index}_orientation">
 				<option value="HORIZONTAL"
-					<c:if test="${orientation=='horizontal'}">selected="selected"</c:if>
+					<c:if test="${param.orientation=='horizontal'}">selected="selected"</c:if>
 				>横書き</option>
 				<option value="VERTICAL"
-					<c:if test="${orientation=='vertical'}">selected="selected"</c:if>
+					<c:if test="${param.orientation=='vertical'}">selected="selected"</c:if>
 				>縦書き</option>
 			</select>
 		</td>
 	</tr>
 	<tr>
 		<td>スピード</td>
-		<td><input type="text" name="${index}_speed" value="${speed}" /></td>
+		<td><input type="text" name="${param.index}_speed" value="${param.speed}" /></td>
 	</tr>
 </table>
-<input type="hidden" id="${param.index}_width"  name="${param.index}_width"  value="<c:out value="${width}" />" />
-<input type="hidden" id="${param.index}_height" name="${param.index}_height" value="<c:out value="${height}" />" />
-<input type="hidden" id="${param.index }_x"     name="${param.index }_x"     value="<c:out value="${x }" />" />
-<input type="hidden" id="${param.index }_y"     name="${param.index }_y"     value="<c:out value="${y }" />" />
+<input type="hidden" id="${param.index}_width"  name="${param.index}_width"  value="<c:out value="${param.width}" />" />
+<input type="hidden" id="${param.index}_height" name="${param.index}_height" value="<c:out value="${param.height}" />" />
+<input type="hidden" id="${param.index }_x"     name="${param.index }_x"     value="<c:out value="${param.x }" />" />
+<input type="hidden" id="${param.index }_y"     name="${param.index }_y"     value="<c:out value="${param.y }" />" />
