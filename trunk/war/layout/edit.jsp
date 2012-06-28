@@ -373,6 +373,7 @@ function putNewComponent(cls, index, data) {
 
 			<div id="addComponentDialog" style="display:none" title="コンポーネントの追加">
 				<table>
+					<!--
 					<tr>
 						<td><input type="checkbox" value="1" /></td>
 						<td>
@@ -381,6 +382,7 @@ function putNewComponent(cls, index, data) {
 							<input type="hidden" id="addComp_url_1" value="/text/form" />
 						</td>
 					</tr>
+					 -->
 					<tr>
 						<td><input type="checkbox" value="2" /></td>
 						<td>
@@ -389,6 +391,7 @@ function putNewComponent(cls, index, data) {
 							<input type="hidden" id="addComp_url_2" value="/html/form" />
 						</td>
 					</tr>
+					<!--
 					<tr>
 						<td><input type="checkbox" value="3" /></td>
 						<td>
@@ -397,6 +400,7 @@ function putNewComponent(cls, index, data) {
 							<input type="hidden" id="addComp_url_3" value="/table/form" />
 						</td>
 					</tr>
+					 -->
 					<tr>
 						<td><input type="checkbox" value="4" /></td>
 						<td>
@@ -405,6 +409,7 @@ function putNewComponent(cls, index, data) {
 							<input type="hidden" id="addComp_url_4" value="/image/form" />
 						</td>
 					</tr>
+					<!--
 					<tr>
 						<td><input type="checkbox" value="5" /></td>
 						<td>
@@ -413,6 +418,7 @@ function putNewComponent(cls, index, data) {
 							<input type="hidden" id="addComp_url_5" value="/audio/form" />
 						</td>
 					</tr>
+					 -->
 					<tr>
 						<td><input type="checkbox" value="6" /></td>
 						<td>
@@ -437,6 +443,7 @@ function putNewComponent(cls, index, data) {
 							<input type="hidden" id="addComp_url_8" value="/marquee/form" />
 						</td>
 					</tr>
+					<!--
 					<tr>
 						<td><input type="checkbox" value="9" /></td>
 						<td>
@@ -461,6 +468,7 @@ function putNewComponent(cls, index, data) {
 							<input type="hidden" id="addComp_url_11" value="/pie_graph/form" />
 						</td>
 					</tr>
+					 -->
 				</table>
 			</div>
 		</div>
