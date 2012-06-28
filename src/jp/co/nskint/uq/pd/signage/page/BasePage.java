@@ -30,7 +30,7 @@ public abstract class BasePage extends ScenicPage {
     protected static final String SESS_KEY_LOGIN_USER = "loginUser";
     /** 正しいメールアドレスかどうかをチェックするためのパターン文字列 */
     protected static final String VALID_PAT_MAILADDR =
-        "[0-9a-zA-Z_\\-]+@[0-9a-zA-Z_\\-]+(\\.[0-9a-zA-Z_\\-]+){1,}";
+        "[0-9a-zA-Z_.\\-]+@[0-9a-zA-Z_\\-]+(\\.[0-9a-zA-Z_\\-]+){1,}";
     /** ユーザIDの最小文字数 */
     protected static final int VALID_MIN_UID = 8;
     /** ユーザIDの最大文字数 */
