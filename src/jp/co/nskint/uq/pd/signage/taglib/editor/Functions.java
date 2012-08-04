@@ -138,13 +138,18 @@ public final class Functions {
         int port = request.getLocalPort();
         final String scheme = request.getScheme();
         final String serverName = request.getServerName();
-        if (port < 0) {
-            port = 80; // Work around java.net.URL bug
+        if (port <= 0) {
+            if (scheme.equals("http")){
+                port = 80; // Work around java.net.URL bug
+            } else if (scheme.equals("https")) {
+                port = 443; // Work around java.net.URL bug
+            }
+
         }
         buf.append(scheme);
         buf.append("://");
         buf.append(serverName);
-        if ((scheme.equals("http") && (port != 80 || port != 0)) || (scheme.equals("https") && (port != 443))) {
+        if ((scheme.equals("http") && (port != 80)) || (scheme.equals("https") && (port != 443))) {
             buf.append(':');
             buf.append(port);
         }
