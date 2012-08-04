@@ -144,7 +144,7 @@ public final class Functions {
         buf.append(scheme);
         buf.append("://");
         buf.append(serverName);
-        if ((scheme.equals("http") && (port != 80)) || (scheme.equals("https") && (port != 443))) {
+        if ((scheme.equals("http") && (port != 80 || port != 0)) || (scheme.equals("https") && (port != 443))) {
             buf.append(':');
             buf.append(port);
         }
