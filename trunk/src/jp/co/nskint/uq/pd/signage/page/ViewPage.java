@@ -4,29 +4,16 @@ package jp.co.nskint.uq.pd.signage.page;
 import java.util.Date;
 
 import jp.co.nskint.uq.pd.signage.model.Layout;
-import jp.co.nskint.uq.pd.signage.model.Manager;
 import jp.co.nskint.uq.pd.signage.model.TimeLine;
 import jp.co.nskint.uq.pd.signage.model.User;
-import jp.co.nskint.uq.pd.signage.model.xml.Block;
-import jp.co.nskint.uq.pd.signage.model.xml.EffectType;
-import jp.co.nskint.uq.pd.signage.model.xml.Image;
-import jp.co.nskint.uq.pd.signage.model.xml.LayoutXml;
-import jp.co.nskint.uq.pd.signage.model.xml.Marquee;
-import jp.co.nskint.uq.pd.signage.model.xml.Schedule;
-import jp.co.nskint.uq.pd.signage.model.xml.StreamVideo;
-import jp.co.nskint.uq.pd.signage.model.xml.StreamVideoType;
-import jp.co.nskint.uq.pd.signage.model.xml.TimeLineXml;
 import jp.co.nskint.uq.pd.signage.service.LayoutService;
-import jp.co.nskint.uq.pd.signage.service.ManagerService;
 import jp.co.nskint.uq.pd.signage.service.TimeLineService;
 import jp.co.nskint.uq.pd.signage.service.TimeLineService.LayoutInfo;
 
 import org.slim3.controller.Navigation;
 
 import scenic3.annotation.ActionPath;
-import scenic3.annotation.Default;
 import scenic3.annotation.Page;
-import scenic3.annotation.RequestParam;
 import scenic3.annotation.Var;
 
 /**

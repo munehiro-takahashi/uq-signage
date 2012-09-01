@@ -84,17 +84,17 @@
 		<td>
 			<select name="${param.index}_direction">
 				<option value="RIGHT"
-					<c:if test="${param.direction=='right'}">selected="selected"</c:if>
-				>Right</option>
+					<c:if test="${param.direction=='RIGHT'}">selected="selected"</c:if>
+				>右へ</option>
 				<option value="LEFT"
-					<c:if test="${param.direction=='left'}">selected="selected"</c:if>
-				>Left</option>
+					<c:if test="${param.direction=='LEFT'}">selected="selected"</c:if>
+				>左へ</option>
 				<option value="UP"
-					<c:if test="${param.direction=='up'}">selected="selected"</c:if>
-				>Top</option>
+					<c:if test="${param.direction=='UP'}">selected="selected"</c:if>
+				>上へ</option>
 				<option value="DOWN"
-					<c:if test="${param.direction=='down'}">selected="selected"</c:if>
-				>Bottom</option>
+					<c:if test="${param.direction=='DOWN'}">selected="selected"</c:if>
+				>下へ</option>
 			</select>
 		</td>
 	</tr>
@@ -103,10 +103,10 @@
 		<td>
 			<select name="${param.index}_orientation">
 				<option value="HORIZONTAL"
-					<c:if test="${param.orientation=='horizontal'}">selected="selected"</c:if>
+					<c:if test="${param.orientation=='HORIZONTAL'}">selected="selected"</c:if>
 				>横書き</option>
 				<option value="VERTICAL"
-					<c:if test="${param.orientation=='vertical'}">selected="selected"</c:if>
+					<c:if test="${param.orientation=='VERTICAL'}">selected="selected"</c:if>
 				>縦書き</option>
 			</select>
 		</td>

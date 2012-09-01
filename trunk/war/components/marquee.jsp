@@ -6,13 +6,13 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <canvas id="${param.id}" width="${param.width}" height="${param.height}"></canvas>
 <script type="text/javascript">
+(function(){
 	var canvas = document.getElementById("${param.id}");
 	var ctx = canvas.getContext("2d");
 	var text = {content:"${param.value}",
 			direction:"${param.orientation}",
 			isVertical: function() { return this.direction.toLowerCase() === "vertical" }};
 	var font = {family:"'${param.fontFamily}'", color:"${param.fontColor}", size:${param.fontSize}, style:"${param.fontStyle}"};
-	var marqueeflow = {repeat:${param.repeat}, direction:"${param.direction}".toLowerCase(), bounce:${param.bounce}};
 	var x = 0;
 	var y = 0;
 	var speed = ${param.speed};
@@ -23,24 +23,147 @@
 	ctx.textBaseline = "top";
 	var textWidth = text.isVertical() ? ctx.measureText(text.content.charAt(0)).width : ctx.measureText(text.content).width;
 	var textHeight = text.isVertical() ? font.size * text.content.length : font.size;
-	var marquee = createMarquee();
 	var timer = setInterval(draw, speed);
 	var defaultStep = 10;
 
-	function createMarquee() {
-		if (marqueeflow.direction == "up") {
-			return new UpMarquee();
-		} else if (marqueeflow.direction == "down") {
-			return new DownMarquee();
-		} else if (marqueeflow.direction == "left") {
-			return new LeftMarquee();
-		} else if (marqueeflow.direction == "right") {
-			return new RightMarquee();
-		}
-		return {move:function(){window.console.log("invalid direction:" + marqueeflow.direction);}};
+		<c:choose>
+		 <c:when test="${param.direction eq 'UP'}">
+			var x = canvas.offsetWidth / 2 - textWidth / 2;
+			var y = canvas.offsetHeight - textHeight;
+			var flg = true;
+			var move = function() {
+				<c:choose>
+				<c:when test="${not param.bounce}">
+					y = y - defaultStep;
+					if (y < 0 - textHeight) {
+						y = canvas.offsetHeight - textHeight;
+						counter ++;
+					}
+					</c:when>
+					<c:otherwise>
+					if (flg == true) {
+						y = y - defaultStep;
+						if (y < 0) {
+							flg = false;
+							y = 0;
+							counter ++;
+						}
+					} else {
+						y = y + defaultStep;
+						if (y > canvas.offsetHeight - textHeight) {
+							y = canvas.offsetHeight - textHeight;
+							flg = true;
+							counter ++;
+						}
+					}
+					</c:otherwise>
+					</c:choose>
+			};
+		 </c:when>
+		 <c:when test="${param.direction eq 'DOWN'}">
+			var x = canvas.offsetWidth / 2 - textWidth / 2;
+			var y = 0;
+			var flg = true;
+			var move = function() {
+				<c:choose>
+					<c:when test="${not param.bounce}">
+					y = y + defaultStep;
+					if (y > canvas.offsetHeight) {
+						y = 0;
+						counter ++;
+					}
+					</c:when>
+					<c:otherwise>
+					if (flg == true) {
+						y = y + defaultStep;
+						if (y > (canvas.offsetHeight - textHeight)) {
+							flg = false;
+							y = canvas.offsetHeight  - textHeight;
+							counter ++;
+						}
+					} else {
+						y = y - defaultStep;
+						if (y < 0) {
+							y = 0;
+							flg = true;
+							counter ++;
+						}
+					}
+					</c:otherwise>
+				</c:choose>
+			};
+
+		 </c:when>
+		 <c:when test="${param.direction eq 'LEFT'}">
+				var x = canvas.offsetWidth - textWidth;
+				var y = canvas.offsetHeight / 2 - textHeight / 2;
+				var flg = true;
+				var move = function() {
+					<c:choose>
+					<c:when test="${not param.bounce}">
+						x = x - defaultStep;
+						if (x < 0 - textWidth) {
+							x = canvas.offsetWidth - textWidth;
+							counter ++;
+						}
+						</c:when>
+						<c:otherwise>
+						if (flg == true) {
+							x = x - defaultStep;
+							if (x < 0) {
+								x = 0;
+								flg = false;
+								counter ++;
+							}
+						} else {
+							x = x + defaultStep;
+							if (x > canvas.offsetWidth - textWidth) {
+								x = canvas.offsetWidth - textWidth;
+								flg = true;
+								counter ++;
+							}
+						}
+						</c:otherwise>
+						</c:choose>
+				};
+		 </c:when>
+		 <c:otherwise>
+				var x = 0;
+				var y = (canvas.offsetHeight / 2) - (textHeight / 2);
+				var flg = true;
+				var move = function() {
+					<c:choose>
+					<c:when test="${not param.bounce}">
+						x = x + defaultStep;
+						if (x > canvas.offsetWidth) {
+							x = 0;
+							counter ++;
+						}
+						</c:when>
+						<c:otherwise>
+						if (flg == true) {
+							x = x + defaultStep;
+							if (x > (canvas.offsetWidth - textWidth)) {
+								flg = false;
+								x = canvas.offsetWidth  - textWidth;
+								counter ++;
+							}
+						} else {
+							x = x - defaultStep;
+							if (x < 0) {
+								x = 0;
+								flg = true;
+								counter ++;
+							}
+						}
+						</c:otherwise>
+						</c:choose>
+				};
+		 </c:otherwise>
+		</c:choose>
 	}
 
-	function draw() {
+	var draw = function() {
 		ctx.fillStyle = fillcolor;
 		ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 		ctx.fillRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
@@ -53,136 +176,15 @@
 		} else {
 			ctx.fillText(text.content, x, y);
 		}
-	}
+	};
 
-	function update() {
-		if (marqueeflow.repeat > 0 && counter == marqueeflow.repeat) {
+	var update = function() {
+		<c:if test="${param.repeat > 0}">
+		if (counter == ${param.repeat}) {
 			 clearInterval(timer);
 		}
-		marquee.move();
-	}
-
-	function LeftMarquee() {
-		x = canvas.offsetWidth - textWidth;
-		y = canvas.offsetHeight / 2 - textHeight / 2;
-		var flg = true;
-		this.move = function() {
-			if (marqueeflow.bounce === false) {
-				x = x - defaultStep;
-				if (x < 0 - textWidth) {
-					x = canvas.offsetWidth - textWidth;
-					counter ++;
-				}
-			} else {
-				if (flg == true) {
-					x = x - defaultStep;
-					if (x < 0) {
-						x = 0;
-						flg = false;
-						counter ++;
-					}
-				} else {
-					x = x + defaultStep;
-					if (x > canvas.offsetWidth - textWidth) {
-						x = canvas.offsetWidth - textWidth;
-						flg = true;
-						counter ++;
-					}
-				}
-			}
-		}
-	}
-
-	function RightMarquee() {
-		x = 0;
-		y = (canvas.offsetHeight / 2) - (textHeight / 2);
-		var flg = true;
-		this.move = function() {
-			if (marqueeflow.bounce === false) {
-				x = x + defaultStep;
-				if (x > canvas.offsetWidth) {
-					x = 0;
-					counter ++;
-				}
-			} else {
-				if (flg == true) {
-					x = x + defaultStep;
-					if (x > (canvas.offsetWidth - textWidth)) {
-						flg = false;
-						x = canvas.offsetWidth  - textWidth;
-						counter ++;
-					}
-				} else {
-					x = x - defaultStep;
-					if (x < 0) {
-						x = 0;
-						flg = true;
-						counter ++;
-					}
-				}
-			}
-		}
-	}
-
-	function UpMarquee() {
-		x = canvas.offsetWidth / 2 - textWidth / 2;
-		y = canvas.offsetHeight - textHeight;
-		var flg = true;
-		this.move = function() {
-			if (marqueeflow.bounce === false) {
-				y = y - defaultStep;
-				if (y < 0 - textHeight) {
-					y = canvas.offsetHeight - textHeight;
-					counter ++;
-				}
-			} else {
-				if (flg == true) {
-					y = y - defaultStep;
-					if (y < 0) {
-						flg = false;
-						y = 0;
-						counter ++;
-					}
-				} else {
-					y = y + defaultStep;
-					if (y > canvas.offsetHeight - textHeight) {
-						y = canvas.offsetHeight - textHeight;
-						flg = true;
-						counter ++;
-					}
-				}
-			}
-		}
-	}
-
-	function DownMarquee() {
-		x = canvas.offsetWidth / 2 - textWidth / 2;
-		y = 0;
-		var flg = true;
-		this.move = function() {
-			if (marqueeflow.bounce === false) {
-				y = y + defaultStep;
-				if (y > canvas.offsetHeight) {
-					y = 0;
-					counter ++;
-				}
-			} else {
-				if (flg == true) {
-					y = y + defaultStep;
-					if (y > (canvas.offsetHeight - textHeight)) {
-						flg = false;
-						y = canvas.offsetHeight  - textHeight;
-						counter ++;
-					}
-				} else {
-					y = y - defaultStep;
-					if (y < 0) {
-						y = 0;
-						flg = true;
-						counter ++;
-					}
-				}
-			}
-		}
-	}
+		</c:if>
+		move();
+	};
+})();
 </script>
