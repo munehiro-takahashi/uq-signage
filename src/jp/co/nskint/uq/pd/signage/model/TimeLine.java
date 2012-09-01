@@ -2,6 +2,7 @@ package jp.co.nskint.uq.pd.signage.model;
 
 import java.io.Serializable;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Date;
 
 import javax.xml.bind.JAXBContext;
@@ -106,6 +107,15 @@ public class TimeLine implements Serializable  {
      */
     public void setXmlModel(TimeLineXml xmlModel) {
         this.xmlModel = xmlModel;
+        try {
+            StringWriter writer = new StringWriter();
+            JAXBContext context =
+                JAXBContext.newInstance("jp.co.nskint.uq.pd.signage.model.xml");
+                context.createMarshaller().marshal(xmlModel, writer);
+            this.xml = writer.toString();
+        } catch (JAXBException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**

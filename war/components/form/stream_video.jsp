@@ -3,7 +3,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:choose>
 	<c:when test="${empty param.type }">
-		<c:set var="type" value="ust" />
+		<c:set var="type" value="UST" />
 	</c:when>
 	<c:otherwise>
 		<c:set var="type" value="${param.type }"/>
@@ -47,7 +47,7 @@
 		<td>
 			<select name="${param.index}_type">
 				<option value="UST"
-					<c:if test="${type=='ust'}">selected="selected"</c:if>
+					<c:if test="${type=='UST'}">selected="selected"</c:if>
 				>UStream</option>
 			</select>
 		</td>

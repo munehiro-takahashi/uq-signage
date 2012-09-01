@@ -1,11 +1,6 @@
 package jp.co.nskint.uq.pd.signage.page;
 
-import java.io.StringReader;
 import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.stream.StreamSource;
 
 import jp.co.nskint.uq.pd.signage.model.Layout;
 import jp.co.nskint.uq.pd.signage.model.Manager;
@@ -187,14 +182,15 @@ public class TimeLinePage extends BasePage {
                 return forward("/error.jsp");
             }
 
-            try {
-                JAXBContext context =
-                    JAXBContext.newInstance("jp.co.nskint.uq.pd.signage.model.xml");
-                TimeLineXml tlXml = (TimeLineXml) context.createUnmarshaller().unmarshal(new StreamSource(new StringReader(xml)));
-                timeline.setXmlModel(tlXml);
-            } catch (JAXBException e) {
-                throw new IllegalStateException(e);
-            }
+//            try {
+//                JAXBContext context =
+//                    JAXBContext.newInstance("jp.co.nskint.uq.pd.signage.model.xml");
+                timeline.setXml(xml);
+//                TimeLineXml tlXml = (TimeLineXml) context.createUnmarshaller().unmarshal(new StreamSource(new StringReader(xml)));
+//                timeline.setXmlModel(tlXml);
+//            } catch (JAXBException e) {
+//                throw new IllegalStateException(e);
+//            }
 
             tlService.put(manager, timeline);
 
